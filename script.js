@@ -286,18 +286,21 @@ class ShootingStar {
   }
 }
 
-// 180 stars for a dense, vibrant starfield
-for (let i = 0; i < 180; i++) particles.push(new Particle());
+// 350 stars for an ultra-dense, mesmerizing night sky
+for (let i = 0; i < 350; i++) particles.push(new Particle());
 
 let lastShootingStarTime = Date.now();
 
 function animateParticles() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Trigger shooting star every 3-6 seconds
+  // Trigger shooting star frequently every 1.2 to 2.5 seconds
   const now = Date.now();
-  if (now - lastShootingStarTime > 3000 + Math.random() * 3000) {
+  if (now - lastShootingStarTime > 1200 + Math.random() * 1300) {
     shootingStars.push(new ShootingStar());
+    if (Math.random() > 0.6) {
+      setTimeout(() => shootingStars.push(new ShootingStar()), 300);
+    }
     lastShootingStarTime = now;
   }
 
