@@ -150,3 +150,87 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
+
+// === AI CHATBOT LOGIC ===
+const chatToggle = document.getElementById('chat-toggle');
+const chatWidget = document.getElementById('chat-widget');
+const closeChat = document.getElementById('close-chat');
+const chatMessages = document.getElementById('chat-messages');
+const chatInput = document.getElementById('chat-input');
+const sendBtn = document.getElementById('send-btn');
+
+chatToggle.addEventListener('click', () => {
+  chatWidget.classList.add('active');
+  chatToggle.classList.add('hidden');
+  setTimeout(() => chatInput.focus(), 300);
+});
+
+closeChat.addEventListener('click', () => {
+  chatWidget.classList.remove('active');
+  chatToggle.classList.remove('hidden');
+});
+
+const knowledgeBase = [
+  { keywords: ['hi', 'hello', 'hey', 'greetings'], response: "Hello! I'm Arnab's AI assistant. How can I help you today?" },
+  { keywords: ['who are you', 'what are you'], response: "I'm a custom AI assistant built directly into Arnab's portfolio. I can answer questions about his experience and skills!" },
+  { keywords: ['experience', 'work', 'job'], response: "Arnab has over 6 years of experience. He's currently a Data Engineer at Google Cloud. Before that, he was a Senior Data Engineer II at UsefulBI and a Senior Data Engineer at phData." },
+  { keywords: ['google', 'gcp'], response: "At Google Cloud, Arnab engineered real-time data ingestion pipelines into BigQuery for Vertex AI, developed a scalable DAG Factory using Airflow, and deployed complete IaC solutions using Terraform." },
+  { keywords: ['usefulbi', 'useful bi'], response: "At UsefulBI, he migrated 15TB of healthcare data to AWS, built pipelines processing 8.5M patient records daily (99.99% uptime), and optimized Databricks clusters to save $200K annually." },
+  { keywords: ['phdata', 'migration', 'snowflake'], response: "At phData, Arnab led a massive 400+ Terabyte migration from a Legacy Data Warehouse to Snowflake. He also built a custom migration validation tool to prevent data loss." },
+  { keywords: ['skills', 'tech', 'stack'], response: "Arnab is an expert in Cloud (GCP, AWS, Azure), Data Warehousing (BigQuery, Snowflake, Databricks), Languages (Python, PySpark, SQL), and Big Data (Kafka, Airflow, Terraform)." },
+  { keywords: ['certification', 'certs', 'certified'], response: "Arnab is triple-certified! He holds the Google Cloud Professional Data Engineer, AWS Data Engineer Associate, and AWS Solutions Architect Associate certifications." },
+  { keywords: ['education', 'degree', 'college'], response: "Arnab holds a Bachelor of Technology in Computer Science & Engineering from the Institute of Engineering and Management, Kolkata, graduating with an 8.45 CGPA." },
+  { keywords: ['contact', 'email', 'phone', 'hire', 'reach'], response: "You can reach Arnab via email at arnavm014@gmail.com, call him at +91 6290729774, or connect with him on LinkedIn!" },
+  { keywords: ['kafka', 'spark', 'airflow', 'dbt', 'terraform'], response: "Yes, Arnab has extensive hands-on experience with modern data stack tools including Kafka, PySpark, Airflow, dbt, and Terraform. Check out his Skills section for more!" }
+];
+
+function getBotResponse(input) {
+  const normalized = input.toLowerCase();
+  for (const item of knowledgeBase) {
+    if (item.keywords.some(kw => normalized.includes(kw))) return item.response;
+  }
+  return "That's a great question! While I don't have the exact answer in my memory bank, Arnab would be happy to discuss it. Feel free to email him at arnavm014@gmail.com!";
+}
+
+function addMessage(text, isUser = false) {
+  const msgDiv = document.createElement('div');
+  msgDiv.className = `message ${isUser ? 'user-message' : 'ai-message'}`;
+  msgDiv.innerHTML = text;
+  chatMessages.appendChild(msgDiv);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function showTypingIndicator() {
+  const typingDiv = document.createElement('div');
+  typingDiv.className = 'message ai-message message-typing';
+  typingDiv.id = 'typing-indicator';
+  typingDiv.innerHTML = '<span></span><span></span><span></span>';
+  chatMessages.appendChild(typingDiv);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function removeTypingIndicator() {
+  const indicator = document.getElementById('typing-indicator');
+  if (indicator) indicator.remove();
+}
+
+function handleSend() {
+  const text = chatInput.value.trim();
+  if (!text) return;
+  
+  addMessage(text, true);
+  chatInput.value = '';
+  
+  showTypingIndicator();
+  
+  setTimeout(() => {
+    removeTypingIndicator();
+    const response = getBotResponse(text);
+    addMessage(response, false);
+  }, 1000 + Math.random() * 1000);
+}
+
+sendBtn.addEventListener('click', handleSend);
+chatInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') handleSend();
+});

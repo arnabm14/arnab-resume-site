@@ -293,6 +293,32 @@
 </section>
 
 <footer><p>© 2025 Arnab Mondal · Built with ⚡ passion for data.</p></footer>
+<!-- AI CHATBOT WIDGET -->
+<div class="chat-widget" id="chat-widget">
+  <div class="chat-header">
+    <div class="chat-header-info">
+      <div class="chat-avatar"><i class="fas fa-robot"></i></div>
+      <div>
+        <h4>Arnab's AI Assistant</h4>
+        <span class="status">Online</span>
+      </div>
+    </div>
+    <button id="close-chat"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="chat-messages" id="chat-messages">
+    <div class="message ai-message">
+      Hi! I'm Arnab's AI Assistant. You can ask me anything about his experience, skills, or projects. Try asking: <em>"What is his experience with BigQuery?"</em> or <em>"Tell me about the 400TB migration."</em>
+    </div>
+  </div>
+  <div class="chat-input-area">
+    <input type="text" id="chat-input" placeholder="Ask a question..." autocomplete="off">
+    <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+  </div>
+</div>
+<button class="chat-toggle" id="chat-toggle">
+  <i class="fas fa-comment-dots"></i>
+</button>
+
 <script src="script.js"></script>
 </body>
 </html>
