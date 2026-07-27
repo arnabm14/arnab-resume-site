@@ -249,8 +249,8 @@ closeChat.addEventListener('click', () => {
 });
 
 const knowledgeBase = [
-  { keywords: ['hi', 'hello', 'hey', 'greetings'], response: "Hello! I'm Arnab's AI assistant. How can I help you today?" },
-  { keywords: ['who are you', 'what are you'], response: "I'm a custom AI assistant built directly into Arnab's portfolio. I can answer questions about his experience and skills!" },
+  { keywords: ['hi', 'hello', 'hey', 'greetings'], response: "Hello! I'm Leona, Arnab's AI assistant. How can I help you today?" },
+  { keywords: ['who are you', 'what are you', 'name'], response: "I'm Leona, a custom AI assistant built directly into Arnab's portfolio. I can answer questions about his experience and skills!" },
   { keywords: ['experience', 'work', 'job'], response: "Arnab has over 6 years of experience. He's currently a Data Engineer at Google Cloud. Before that, he was a Senior Data Engineer II at UsefulBI and a Senior Data Engineer at phData." },
   { keywords: ['google', 'gcp'], response: "At Google Cloud, Arnab engineered real-time data ingestion pipelines into BigQuery for Vertex AI, developed a scalable DAG Factory using Airflow, and deployed complete IaC solutions using Terraform." },
   { keywords: ['usefulbi', 'useful bi'], response: "At UsefulBI, he migrated 15TB of healthcare data to AWS, built pipelines processing 8.5M patient records daily (99.99% uptime), and optimized Databricks clusters to save $200K annually." },
@@ -267,7 +267,7 @@ function getBotResponse(input) {
   for (const item of knowledgeBase) {
     if (item.keywords.some(kw => normalized.includes(kw))) return item.response;
   }
-  return "That's a great question! While I don't have the exact answer in my memory bank, Arnab would be happy to discuss it. Feel free to email him at arnavm014@gmail.com!";
+  return "Please only ask relevant questions about Arnab's professional background, experience, and resume. For anything else, please reach out to him directly at arnavm014@gmail.com.";
 }
 
 function addMessage(text, isUser = false) {
