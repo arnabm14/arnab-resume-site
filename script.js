@@ -165,6 +165,17 @@ function renderRadarChart() {
 const canvas = document.getElementById('hero-canvas');
 const ctx = canvas.getContext('2d');
 let particles = [];
+let shootingStars = [];
+let mouse = { x: null, y: null, radius: 200 };
+
+window.addEventListener('mousemove', (e) => {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+});
+window.addEventListener('mouseleave', () => {
+  mouse.x = null;
+  mouse.y = null;
+});
 
 function resizeCanvas() {
   canvas.width = window.innerWidth;
@@ -174,41 +185,135 @@ resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
 
 class Particle {
-  constructor() { this.reset(); }
-  reset() {
-    this.x = Math.random() * canvas.width;
-    this.y = Math.random() * canvas.height;
+  constructor(fromEdge = false) {
+    this.reset(fromEdge);
+  }
+  reset(fromEdge = false) {
+    if (fromEdge) {
+      const side = Math.floor(Math.random() * 4);
+      if (side === 0) { this.x = Math.random() * canvas.width; this.y = -10; }
+      else if (side === 1) { this.x = canvas.width + 10; this.y = Math.random() * canvas.height; }
+      else if (side === 2) { this.x = Math.random() * canvas.width; this.y = canvas.height + 10; }
+      else { this.x = -10; this.y = Math.random() * canvas.height; }
+    } else {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+    }
     this.size = Math.random() * 2 + 0.5;
-    this.speedX = (Math.random() - 0.5) * 0.4;
-    this.speedY = (Math.random() - 0.5) * 0.4;
-    this.opacity = Math.random() * 0.4 + 0.1;
+    this.speedX = (Math.random() - 0.5) * 0.5;
+    this.speedY = (Math.random() - 0.5) * 0.5;
+    this.opacity = Math.random() * 0.6 + 0.2;
+    this.twinkleSpeed = Math.random() * 0.02 + 0.005;
   }
   update() {
+    this.opacity += Math.sin(Date.now() * this.twinkleSpeed) * 0.003;
+    if (this.opacity < 0.15) this.opacity = 0.15;
+    if (this.opacity > 0.85) this.opacity = 0.85;
+
+    // Mouse gravity pull
+    if (mouse.x !== null && mouse.y !== null) {
+      const dx = mouse.x - this.x;
+      const dy = mouse.y - this.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < mouse.radius && dist > 1) {
+        const force = (mouse.radius - dist) / mouse.radius;
+        const angle = Math.atan2(dy, dx);
+        this.x += Math.cos(angle) * force * 1.8;
+        this.y += Math.sin(angle) * force * 1.8;
+      }
+    }
+
     this.x += this.speedX;
     this.y += this.speedY;
-    if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+
+    if (this.x < -20 || this.x > canvas.width + 20 || this.y < -20 || this.y > canvas.height + 20) {
+      this.reset(true);
+    }
   }
   draw() {
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
     ctx.fillStyle = `rgba(59, 130, 246, ${this.opacity})`;
+    if (this.size > 1.8) {
+      ctx.shadowBlur = 6;
+      ctx.shadowColor = 'rgba(6, 182, 212, 0.8)';
+    }
     ctx.fill();
+    ctx.shadowBlur = 0;
   }
 }
 
-for (let i = 0; i < 80; i++) particles.push(new Particle());
+class ShootingStar {
+  constructor() {
+    this.reset();
+  }
+  reset() {
+    this.x = Math.random() * canvas.width * 0.8;
+    this.y = Math.random() * (canvas.height * 0.4);
+    this.length = Math.random() * 100 + 60;
+    this.speed = Math.random() * 12 + 8;
+    this.size = Math.random() * 1.5 + 0.8;
+    this.angle = Math.PI / 4 + (Math.random() - 0.5) * 0.2;
+    this.opacity = 1;
+    this.active = true;
+  }
+  update() {
+    if (!this.active) return;
+    this.x += Math.cos(this.angle) * this.speed;
+    this.y += Math.sin(this.angle) * this.speed;
+    this.opacity -= 0.015;
+    if (this.opacity <= 0 || this.x > canvas.width || this.y > canvas.height) {
+      this.active = false;
+    }
+  }
+  draw() {
+    if (!this.active) return;
+    const tailX = this.x - Math.cos(this.angle) * this.length;
+    const tailY = this.y - Math.sin(this.angle) * this.length;
+
+    const grad = ctx.createLinearGradient(this.x, this.y, tailX, tailY);
+    grad.addColorStop(0, `rgba(255, 255, 255, ${this.opacity})`);
+    grad.addColorStop(0.2, `rgba(6, 182, 212, ${this.opacity * 0.9})`);
+    grad.addColorStop(1, `rgba(59, 130, 246, 0)`);
+
+    ctx.beginPath();
+    ctx.moveTo(this.x, this.y);
+    ctx.lineTo(tailX, tailY);
+    ctx.strokeStyle = grad;
+    ctx.lineWidth = this.size;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+  }
+}
+
+// 180 stars for a dense, vibrant starfield
+for (let i = 0; i < 180; i++) particles.push(new Particle());
+
+let lastShootingStarTime = Date.now();
 
 function animateParticles() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Trigger shooting star every 3-6 seconds
+  const now = Date.now();
+  if (now - lastShootingStarTime > 3000 + Math.random() * 3000) {
+    shootingStars.push(new ShootingStar());
+    lastShootingStarTime = now;
+  }
+
+  shootingStars.forEach(s => { s.update(); s.draw(); });
+  shootingStars = shootingStars.filter(s => s.active);
+
   particles.forEach(p => { p.update(); p.draw(); });
+
   for (let i = 0; i < particles.length; i++) {
     for (let j = i + 1; j < particles.length; j++) {
       const dx = particles[i].x - particles[j].x;
       const dy = particles[i].y - particles[j].y;
       const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 120) {
+      if (dist < 90) {
         ctx.beginPath();
-        ctx.strokeStyle = `rgba(59, 130, 246, ${0.06 * (1 - dist / 120)})`;
+        ctx.strokeStyle = `rgba(59, 130, 246, ${0.08 * (1 - dist / 90)})`;
         ctx.lineWidth = 0.5;
         ctx.moveTo(particles[i].x, particles[i].y);
         ctx.lineTo(particles[j].x, particles[j].y);
@@ -216,6 +321,7 @@ function animateParticles() {
       }
     }
   }
+
   requestAnimationFrame(animateParticles);
 }
 animateParticles();
