@@ -118,7 +118,7 @@ function renderRadarChart() {
       ],
       datasets: [{
         label: 'Proficiency',
-        data: [95, 92, 90, 88, 85, 90],
+        data: [100, 99, 98, 97, 96, 98],
         backgroundColor: gradient,
         borderColor: '#06b6d4',
         pointBackgroundColor: '#3b82f6',
