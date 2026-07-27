@@ -83,6 +83,82 @@ const skillObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.3 });
 skillBars.forEach(bar => skillObserver.observe(bar));
 
+// === Skills Radar Chart ===
+let chartRendered = false;
+const chartObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && !chartRendered) {
+      renderRadarChart();
+      chartRendered = true;
+    }
+  });
+}, { threshold: 0.3 });
+
+const chartCanvas = document.getElementById('skillsRadarChart');
+if (chartCanvas) chartObserver.observe(chartCanvas);
+
+function renderRadarChart() {
+  const ctx = document.getElementById('skillsRadarChart').getContext('2d');
+  
+  // Create gradient
+  const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+  gradient.addColorStop(0, 'rgba(6, 182, 212, 0.4)'); // --accent
+  gradient.addColorStop(1, 'rgba(59, 130, 246, 0.1)'); // --primary
+  
+  new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: [
+        'Data Warehousing', 
+        'Data Pipelines', 
+        'Cloud Infrastructure', 
+        'Real-time Streaming', 
+        'Data Modeling', 
+        'Performance Tuning'
+      ],
+      datasets: [{
+        label: 'Proficiency',
+        data: [95, 92, 90, 88, 85, 90],
+        backgroundColor: gradient,
+        borderColor: '#06b6d4',
+        pointBackgroundColor: '#3b82f6',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: '#06b6d4',
+        borderWidth: 2,
+        pointRadius: 4,
+        pointHoverRadius: 6
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(10, 15, 30, 0.9)',
+          titleFont: { family: 'Outfit', size: 14 },
+          bodyFont: { family: 'Inter', size: 13 },
+          padding: 12,
+          borderColor: 'rgba(65,83,140,0.3)',
+          borderWidth: 1
+        }
+      },
+      scales: {
+        r: {
+          angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+          grid: { color: 'rgba(255, 255, 255, 0.1)' },
+          pointLabels: {
+            color: '#94a3b8',
+            font: { family: 'Inter', size: 12, weight: '500' }
+          },
+          ticks: { display: false, min: 0, max: 100 }
+        }
+      }
+    }
+  });
+}
+
 // === Canvas particle background ===
 const canvas = document.getElementById('hero-canvas');
 const ctx = canvas.getContext('2d');

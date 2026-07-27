@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 <canvas id="hero-canvas"></canvas>
@@ -150,32 +151,31 @@
 <!-- SKILLS -->
 <section id="skills" class="container">
   <h2 class="section-title reveal">Skills & Technologies</h2>
-  <div class="skills-section">
-    <div class="skill-category reveal">
-      <h3><i class="fas fa-cloud"></i> Cloud Platforms</h3>
-      <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Google Cloud Platform</span><span>95%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="95"></div></div></div>
-      <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Amazon Web Services</span><span>92%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="92"></div></div></div>
-      <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Microsoft Azure</span><span>85%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="85"></div></div></div>
+  
+  <div class="skills-dashboard reveal">
+    <div class="chart-container">
+      <canvas id="skillsRadarChart"></canvas>
     </div>
-    <div class="skill-category reveal">
-      <h3><i class="fas fa-database"></i> Data Warehouses</h3>
-      <div class="skill-bar-wrap"><div class="skill-bar-label"><span>BigQuery</span><span>95%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="95"></div></div></div>
-      <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Snowflake</span><span>92%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="92"></div></div></div>
-      <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Databricks</span><span>88%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="88"></div></div></div>
-    </div>
-    <div class="skill-category reveal">
-      <h3><i class="fas fa-code"></i> Languages & Frameworks</h3>
-      <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Python / PySpark</span><span>95%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="95"></div></div></div>
-      <div class="skill-bar-wrap"><div class="skill-bar-label"><span>SQL / Hive / Impala</span><span>95%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="95"></div></div></div>
-      <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Terraform / IaC</span><span>85%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="85"></div></div></div>
-    </div>
-    <div class="skill-category reveal">
-      <h3><i class="fas fa-stream"></i> Big Data & Streaming</h3>
-      <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Apache Spark / Beam</span><span>92%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="92"></div></div></div>
-      <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Apache Kafka / Pub/Sub</span><span>90%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="90"></div></div></div>
-      <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Airflow / Composer</span><span>92%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="92"></div></div></div>
+    
+    <div class="skills-section">
+      <div class="skill-category">
+        <h3><i class="fas fa-cloud"></i> Core Cloud Platforms</h3>
+        <p>Architecting petabyte-scale data infrastructure across major cloud providers with a focus on high availability, security, and cost optimization.</p>
+        <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Google Cloud Platform (GCP)</span><span>95%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="95"></div></div></div>
+        <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Amazon Web Services (AWS)</span><span>92%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="92"></div></div></div>
+        <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Microsoft Azure</span><span>85%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="85"></div></div></div>
+      </div>
+      
+      <div class="skill-category">
+        <h3><i class="fas fa-stream"></i> Data Engineering Stack</h3>
+        <p>Building real-time and batch processing ETL/ELT pipelines capable of handling millions of records per day with zero data loss.</p>
+        <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Python / PySpark</span><span>95%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="95"></div></div></div>
+        <div class="skill-bar-wrap"><div class="skill-bar-label"><span>SQL / BigQuery / Snowflake</span><span>95%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="95"></div></div></div>
+        <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Airflow / Kafka / Databricks</span><span>92%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="92"></div></div></div>
+      </div>
     </div>
   </div>
+
   <div class="skill-tags reveal">
     <span class="skill-tag">Python</span><span class="skill-tag">Java</span><span class="skill-tag">C++</span>
     <span class="skill-tag">PySpark</span><span class="skill-tag">SQL</span><span class="skill-tag">BigQuery</span>
