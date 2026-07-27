@@ -196,14 +196,34 @@ footer { text-align: center; padding: 40px 0; border-top: 1px solid var(--border
   100% { transform: scale(1); box-shadow: 0 10px 30px rgba(59,130,246,0.4); }
 }
 
+@keyframes collapse-to-circle {
+  0% { width: 220px; border-radius: 30px; }
+  100% { width: 60px; border-radius: 30px; }
+}
+
+@keyframes fade-out-text {
+  0% { opacity: 1; max-width: 200px; margin-right: 10px; }
+  100% { opacity: 0; max-width: 0; margin-right: 0; display: none; }
+}
+
 .chat-toggle {
-  position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px;
-  background: var(--grad1); border: none; border-radius: 50%; color: white;
+  position: fixed; bottom: 30px; right: 30px; height: 60px; width: 220px;
+  background: var(--grad1); border: none; color: white; border-radius: 30px;
+  display: flex; align-items: center; justify-content: center;
   font-size: 1.5rem; cursor: pointer; z-index: 1000; box-shadow: 0 10px 30px rgba(59,130,246,0.4);
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  animation: attention-pulse 5s infinite 2s;
+  animation: collapse-to-circle 0.8s cubic-bezier(0.8, 0, 0.2, 1) 3s forwards, attention-pulse 5s infinite 4s;
+  overflow: hidden;
 }
-.chat-toggle:hover { transform: scale(1.1); }
+.chat-toggle-text {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  white-space: nowrap;
+  margin-right: 10px;
+  animation: fade-out-text 0.8s cubic-bezier(0.8, 0, 0.2, 1) 3s forwards;
+}
+.chat-toggle:hover { transform: scale(1.05); }
 .chat-toggle.hidden { transform: scale(0); opacity: 0; pointer-events: none; }
 
 .chat-widget {

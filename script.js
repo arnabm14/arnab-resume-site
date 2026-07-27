@@ -251,22 +251,59 @@ closeChat.addEventListener('click', () => {
 const knowledgeBase = [
   { keywords: ['hi', 'hello', 'hey', 'greetings'], response: "Hello! I'm Leona, Arnab's AI assistant. How can I help you today?" },
   { keywords: ['who are you', 'what are you', 'name'], response: "I'm Leona, a custom AI assistant built directly into Arnab's portfolio. I can answer questions about his experience and skills!" },
-  { keywords: ['experience', 'work', 'job'], response: "Arnab has over 6 years of experience. He's currently a Data Engineer at Google Cloud. Before that, he was a Senior Data Engineer II at UsefulBI and a Senior Data Engineer at phData." },
-  { keywords: ['google', 'gcp'], response: "At Google Cloud, Arnab engineered real-time data ingestion pipelines into BigQuery for Vertex AI, developed a scalable DAG Factory using Airflow, and deployed complete IaC solutions using Terraform." },
-  { keywords: ['usefulbi', 'useful bi'], response: "At UsefulBI, he migrated 15TB of healthcare data to AWS, built pipelines processing 8.5M patient records daily (99.99% uptime), and optimized Databricks clusters to save $200K annually." },
-  { keywords: ['phdata', 'migration', 'snowflake'], response: "At phData, Arnab led a massive 400+ Terabyte migration from a Legacy Data Warehouse to Snowflake. He also built a custom migration validation tool to prevent data loss." },
-  { keywords: ['skills', 'tech', 'stack'], response: "Arnab is an expert in Cloud (GCP, AWS, Azure), Data Warehousing (BigQuery, Snowflake, Databricks), Languages (Python, PySpark, SQL), and Big Data (Kafka, Airflow, Terraform)." },
+  { keywords: ['who is arnab', 'about arnab', 'tell me about arnab', 'tell me about him', 'summary', 'background'], response: "Arnab is a Senior Data Engineer currently at Google Cloud. He has over 6 years of experience building petabyte-scale data pipelines and is triple cloud-certified in AWS and GCP." },
+  { keywords: ['experience', 'work', 'job', 'career', 'history'], response: "Arnab has over 6 years of experience. He's currently a Data Engineer at Google Cloud. Before that, he was a Senior Data Engineer II at UsefulBI and a Senior Data Engineer at phData." },
+  { keywords: ['google', 'gcp', 'vertex', 'composer', 'dataform'], response: "At Google Cloud, Arnab engineered real-time data ingestion pipelines into BigQuery for Vertex AI, developed a scalable DAG Factory using Airflow, and deployed complete IaC solutions using Terraform." },
+  { keywords: ['usefulbi', 'useful bi', 'healthcare'], response: "At UsefulBI, he migrated 15TB of healthcare data to AWS, built pipelines processing 8.5M patient records daily (99.99% uptime), and optimized Databricks clusters to save $200K annually." },
+  { keywords: ['phdata', 'migration', 'snowflake', '400tb'], response: "At phData, Arnab led a massive 400+ Terabyte migration from a Legacy Data Warehouse to Snowflake. He also built a custom migration validation tool to prevent data loss." },
+  { keywords: ['skills', 'tech', 'stack', 'technologies', 'tools', 'languages'], response: "Arnab is an expert in Cloud (GCP, AWS, Azure), Data Warehousing (BigQuery, Snowflake, Databricks), Languages (Python, PySpark, SQL), and Big Data (Kafka, Airflow, Terraform)." },
   { keywords: ['certification', 'certs', 'certified'], response: "Arnab is triple-certified! He holds the Google Cloud Professional Data Engineer, AWS Data Engineer Associate, and AWS Solutions Architect Associate certifications." },
-  { keywords: ['education', 'degree', 'college'], response: "Arnab holds a Bachelor of Technology in Computer Science & Engineering from the Institute of Engineering and Management, Kolkata, graduating with an 8.45 CGPA." },
-  { keywords: ['contact', 'email', 'phone', 'hire', 'reach'], response: "You can reach Arnab via email at arnavm014@gmail.com, call him at +91 6290729774, or connect with him on LinkedIn!" },
-  { keywords: ['kafka', 'spark', 'airflow', 'dbt', 'terraform'], response: "Yes, Arnab has extensive hands-on experience with modern data stack tools including Kafka, PySpark, Airflow, dbt, and Terraform. Check out his Skills section for more!" }
+  { keywords: ['education', 'degree', 'college', 'university', 'btech'], response: "Arnab holds a Bachelor of Technology in Computer Science & Engineering from the Institute of Engineering and Management, Kolkata, graduating with an 8.45 CGPA." },
+  { keywords: ['contact', 'email', 'phone', 'hire', 'reach', 'number'], response: "You can reach Arnab via email at arnavm014@gmail.com, call him at +91 6290729774, or connect with him on LinkedIn!" },
+  { keywords: ['kafka', 'spark', 'airflow', 'dbt', 'terraform', 'pyspark', 'python', 'sql'], response: "Yes, Arnab has extensive hands-on experience with modern data stack tools including Kafka, PySpark, Airflow, dbt, and Terraform. Check out his Skills section for more!" },
+  { keywords: ['resume', 'cv', 'download'], response: "You are currently viewing his interactive resume! If you need a PDF version, please reach out to him at arnavm014@gmail.com." }
 ];
 
-function getBotResponse(input) {
+async function getBotResponse(input) {
   const normalized = input.toLowerCase();
+  
+  // Quick local keyword check for instant response
   for (const item of knowledgeBase) {
     if (item.keywords.some(kw => normalized.includes(kw))) return item.response;
   }
+
+  // Live Google Gemini AI Call
+  try {
+    const apiKey = atob('QVEuQWI4Uk42S1diYzlSZFBFVE1ocXE2aVAxYllvM0g3WGJEcnVGb2xsOGJTbXdzMjlyYlE=');
+    const systemPrompt = `You are Leona, the professional AI Assistant for Arnab Mondal's portfolio site.
+Arnab is a Senior Data Engineer at Google Cloud (6+ years experience), triple cloud certified (GCP PDE, AWS SAA, AWS DEA).
+Key highlights: 400TB migration to Snowflake at phData, 15TB migration to AWS at UsefulBI, GCP Vertex/BigQuery/Airflow pipelines.
+Rule: Answer politely, concisely (1-3 sentences max). Only discuss Arnab's career, resume, skills, or projects. If asked unrelated questions, ask them to email arnavm014@gmail.com.`;
+
+    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [
+          { role: 'user', parts: [{ text: systemPrompt + "\n\nUser Question: " + input }] }
+        ]
+      })
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      const answer = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (answer) return answer.trim();
+    }
+  } catch (err) {
+    console.error("Gemini API Error:", err);
+  }
+
+  // General fallback
+  if (normalized.includes('arnab')) {
+    return "Arnab is a Senior Data Engineer at Google Cloud. Ask me about his 'experience', 'skills', or 'projects'!";
+  }
+  
   return "Please only ask relevant questions about Arnab's professional background, experience, and resume. For anything else, please reach out to him directly at arnavm014@gmail.com.";
 }
 
@@ -292,7 +329,7 @@ function removeTypingIndicator() {
   if (indicator) indicator.remove();
 }
 
-function handleSend() {
+async function handleSend() {
   const text = chatInput.value.trim();
   if (!text) return;
   
@@ -301,11 +338,12 @@ function handleSend() {
   
   showTypingIndicator();
   
-  setTimeout(() => {
-    removeTypingIndicator();
-    const response = getBotResponse(text);
-    addMessage(response, false);
-  }, 1000 + Math.random() * 1000);
+  // Minimum delay for realistic feel
+  await new Promise(r => setTimeout(r, 800));
+  
+  const response = await getBotResponse(text);
+  removeTypingIndicator();
+  addMessage(response, false);
 }
 
 sendBtn.addEventListener('click', handleSend);
