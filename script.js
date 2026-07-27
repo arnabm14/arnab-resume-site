@@ -146,13 +146,15 @@ function renderRadarChart() {
       },
       scales: {
         r: {
+          min: 0,
+          max: 100,
           angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
           grid: { color: 'rgba(255, 255, 255, 0.1)' },
           pointLabels: {
             color: '#94a3b8',
             font: { family: 'Inter', size: 12, weight: '500' }
           },
-          ticks: { display: false, min: 0, max: 100 }
+          ticks: { display: false }
         }
       }
     }
