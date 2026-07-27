@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Arnab Mondal — Data Engineer at Google Cloud. 6+ years building petabyte-scale data pipelines across GCP, AWS, and Azure.">
+  <title>Arnab Mondal — Data Engineer</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+</head>
+<body>
+<canvas id="hero-canvas"></canvas>
+
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-logo">AM.</div>
+    <div class="nav-links" id="nav-links">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#certs">Certs</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="about">
+  <div class="hero-content reveal">
+    <h1>Arnab <span class="gradient">Mondal</span></h1>
+    <div class="subtitle"><span id="typed"></span><span class="typing-cursor">|</span></div>
+    <p class="bio">I want to build pipelines and infrastructure to ingest and transform Petabytes of Data. I want to revolutionise Big Data and how we perceive it so that it becomes a trivial solution for everyone and master Big Data.</p>
+    <div class="social-links">
+      <a href="https://github.com/arnabm14" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+      <a href="https://www.linkedin.com/in/arnab1408/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="mailto:arnavm014@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+      <a href="tel:+916290729774" title="Phone"><i class="fas fa-phone"></i></a>
+    </div>
+    <a href="#experience" class="btn">Explore My Work</a>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item reveal"><div class="stat-number" data-target="6" data-suffix="+">0</div><div class="stat-label">Years Experience</div></div>
+      <div class="stat-item reveal"><div class="stat-number" data-target="3" data-suffix="">0</div><div class="stat-label">Cloud Certifications</div></div>
+      <div class="stat-item reveal"><div class="stat-number" data-target="400" data-suffix="+ TB">0</div><div class="stat-label">Data Migrated</div></div>
+      <div class="stat-item reveal"><div class="stat-number" data-target="5" data-suffix="">0</div><div class="stat-label">Companies Served</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="container">
+  <h2 class="section-title reveal">Work Experience</h2>
+  <div class="timeline">
+
+    <!-- Google Cloud -->
+    <div class="timeline-item reveal">
+      <div class="timeline-card">
+        <div class="timeline-date">June 2025 — Present</div>
+        <div class="timeline-role">Data Engineer</div>
+        <div class="timeline-company"><i class="fab fa-google"></i> Google Cloud</div>
+        <ul>
+          <li>Completed Phase 1 of data migration for CAMS — seamless transfer of historical data to Google Cloud via a single ingestion pipeline with enhanced performance vs bare-metal architecture</li>
+          <li>Developed a custom Google Composer (Airflow) plugin with dynamic calendar scheduling — auto-skipping holidays, executing only on weekdays, with robust edge case handling</li>
+          <li>Engineered a comprehensive real-time data ingestion pipeline for organizational email data into BigQuery, enabling subsequent Vertex AI machine learning applications</li>
+          <li>Developed a highly reusable and scalable DAG Factory framework, accelerating creation and deployment of data processing workflows across Dev, Staging and Production</li>
+          <li>Orchestrated complete Infrastructure as Code (IaC) deployment via Terraform across all environments — ensuring consistency, repeatability, and version control</li>
+          <li>Engaged in Python automations to optimize Dataform pipelines, writing efficient code for seamless interaction with Google BigQuery</li>
+        </ul>
+        <div class="skills-used">GCP · BigQuery · Dataform · Composer · Airflow · Terraform · Vertex AI · Python · Pub/Sub</div>
+      </div>
+    </div>
+
+    <!-- UsefulBI -->
+    <div class="timeline-item reveal">
+      <div class="timeline-card">
+        <div class="timeline-date">Sept 2024 — June 2025</div>
+        <div class="timeline-role">Senior Data Engineer II</div>
+        <div class="timeline-company"><i class="fas fa-hospital"></i> UsefulBI · Bangalore, India (Remote)</div>
+        <ul>
+          <li>Migrated 15TB healthcare data to AWS, optimised the system and reduced costs by 32%</li>
+          <li>Built AWS/Databricks pipeline processing 8.5M patient records daily with 99.99% uptime</li>
+          <li>Executed migration for 7 healthcare facilities with zero data loss across 12 years of patient records</li>
+          <li>Implemented security protocols during migration, achieving 100% compliance and reducing incidents</li>
+          <li>Optimized Databricks clusters, saving $200K annually while increasing processing capacity by 65%</li>
+        </ul>
+        <div class="skills-used">PySpark · AWS · Databricks · Data Validation · ETL Security · Data Compliance · Starburst · Cost Optimization</div>
+      </div>
+    </div>
+
+    <!-- phData -->
+    <div class="timeline-item reveal">
+      <div class="timeline-card">
+        <div class="timeline-date">June 2022 — Sept 2024</div>
+        <div class="timeline-role">Senior Data Engineer</div>
+        <div class="timeline-company"><i class="fas fa-snowflake"></i> phData · Bangalore, India (Remote)</div>
+        <ul>
+          <li>Created an end-to-end pipeline to migrate 400+ Terabytes of data from Legacy Data Warehouse to Snowflake</li>
+          <li>Analyzed and created a migration validation tool to ensure proper data transfer and prevent data loss</li>
+          <li>Designed a first-of-a-kind way to version control Jobs via Azure repository to perform CRUD operations via API</li>
+          <li>Created a Migration Utility to migrate data from SQL Server to Snowflake from scratch</li>
+        </ul>
+        <div class="skills-used">PySpark · Azure · AWS · Snowflake · DBT · Terraform · Fivetran · HVR · Kafka · Matillion · Iceberg · Hadoop · YARN · Hive</div>
+      </div>
+    </div>
+
+    <!-- AFour Technologies -->
+    <div class="timeline-item reveal">
+      <div class="timeline-card">
+        <div class="timeline-date">Dec 2021 — June 2022</div>
+        <div class="timeline-role">Senior SDE</div>
+        <div class="timeline-company"><i class="fas fa-code"></i> AFour Technologies · Pune, India (Remote)</div>
+        <ul>
+          <li>Developed software that worked on OpenStack and maintained production-level code</li>
+          <li>Fixed bugs and implemented a new token authentication system for secure user login</li>
+          <li>Created Glue Job on AWS using PySpark to ingest data into the RAW layer and follow the 3 stages of ingestion</li>
+        </ul>
+        <div class="skills-used">Python · OpenStack · AWS Glue · S3 · Athena · Crawlers · Step Functions · CloudFormation · Appflow</div>
+      </div>
+    </div>
+
+    <!-- TCS -->
+    <div class="timeline-item reveal">
+      <div class="timeline-card">
+        <div class="timeline-date">July 2019 — Dec 2021</div>
+        <div class="timeline-role">Software Development Engineer</div>
+        <div class="timeline-company"><i class="fas fa-building"></i> Tata Consultancy Services (TCS) · Kolkata, India</div>
+        <ul>
+          <li>Gained experience in Software Development in Python and PySpark framework to create Pipelines</li>
+          <li>Worked intensively with Big Data technologies like Impala, Spark, Kafka, Hive and HDFS in Cloudera environment</li>
+          <li>Created an ETL tool in Python with Spark and scheduled it using Airflow to ingest up to 1TB of data per day</li>
+        </ul>
+        <div class="skills-used">Python · PySpark · MySQL · Hive · PowerBI · Airflow · Kafka · HDFS · Impala · YARN · Cloudera</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="container">
+  <h2 class="section-title reveal">Skills & Technologies</h2>
+  <div class="skills-section">
+    <div class="skill-category reveal">
+      <h3><i class="fas fa-cloud"></i> Cloud Platforms</h3>
+      <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Google Cloud Platform</span><span>95%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="95"></div></div></div>
+      <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Amazon Web Services</span><span>92%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="92"></div></div></div>
+      <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Microsoft Azure</span><span>85%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="85"></div></div></div>
+    </div>
+    <div class="skill-category reveal">
+      <h3><i class="fas fa-database"></i> Data Warehouses</h3>
+      <div class="skill-bar-wrap"><div class="skill-bar-label"><span>BigQuery</span><span>95%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="95"></div></div></div>
+      <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Snowflake</span><span>92%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="92"></div></div></div>
+      <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Databricks</span><span>88%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="88"></div></div></div>
+    </div>
+    <div class="skill-category reveal">
+      <h3><i class="fas fa-code"></i> Languages & Frameworks</h3>
+      <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Python / PySpark</span><span>95%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="95"></div></div></div>
+      <div class="skill-bar-wrap"><div class="skill-bar-label"><span>SQL / Hive / Impala</span><span>95%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="95"></div></div></div>
+      <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Terraform / IaC</span><span>85%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="85"></div></div></div>
+    </div>
+    <div class="skill-category reveal">
+      <h3><i class="fas fa-stream"></i> Big Data & Streaming</h3>
+      <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Apache Spark / Beam</span><span>92%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="92"></div></div></div>
+      <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Apache Kafka / Pub/Sub</span><span>90%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="90"></div></div></div>
+      <div class="skill-bar-wrap"><div class="skill-bar-label"><span>Airflow / Composer</span><span>92%</span></div><div class="skill-bar"><div class="skill-bar-fill" data-width="92"></div></div></div>
+    </div>
+  </div>
+  <div class="skill-tags reveal">
+    <span class="skill-tag">Python</span><span class="skill-tag">Java</span><span class="skill-tag">C++</span>
+    <span class="skill-tag">PySpark</span><span class="skill-tag">SQL</span><span class="skill-tag">BigQuery</span>
+    <span class="skill-tag">Snowflake</span><span class="skill-tag">Databricks</span><span class="skill-tag">Dataform</span>
+    <span class="skill-tag">Apache Kafka</span><span class="skill-tag">Apache Spark</span><span class="skill-tag">Airflow</span>
+    <span class="skill-tag">Hadoop</span><span class="skill-tag">HDFS</span><span class="skill-tag">Hive</span>
+    <span class="skill-tag">Impala</span><span class="skill-tag">MapReduce</span><span class="skill-tag">YARN</span>
+    <span class="skill-tag">AWS Glue</span><span class="skill-tag">S3</span><span class="skill-tag">Athena</span>
+    <span class="skill-tag">Lambda</span><span class="skill-tag">Pub/Sub</span><span class="skill-tag">Dataflow</span>
+    <span class="skill-tag">Terraform</span><span class="skill-tag">Docker</span><span class="skill-tag">Kubernetes</span>
+    <span class="skill-tag">DBT</span><span class="skill-tag">Fivetran</span><span class="skill-tag">Matillion</span>
+    <span class="skill-tag">CI/CD</span><span class="skill-tag">Jenkins</span><span class="skill-tag">Git</span>
+    <span class="skill-tag">Cloudera</span><span class="skill-tag">OpenStack</span><span class="skill-tag">gRPC</span>
+    <span class="skill-tag">Bigtable</span><span class="skill-tag">Cassandra</span><span class="skill-tag">DynamoDB</span>
+    <span class="skill-tag">HBase</span><span class="skill-tag">REST API</span><span class="skill-tag">Vertex AI</span>
+    <span class="skill-tag">RabbitMQ</span><span class="skill-tag">Kerberos</span><span class="skill-tag">Iceberg</span>
+    <span class="skill-tag">Starburst</span><span class="skill-tag">Exadata</span><span class="skill-tag">Distributed Systems</span>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certs" class="container">
+  <h2 class="section-title reveal">Certifications</h2>
+  <div class="certs-grid">
+    <div class="cert-card reveal">
+      <div class="cert-icon"><i class="fab fa-google"></i></div>
+      <div class="cert-name">Cloud Data Engineer</div>
+      <div class="cert-provider">Google Cloud</div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-icon"><i class="fab fa-aws"></i></div>
+      <div class="cert-name">Data Engineer Associate</div>
+      <div class="cert-provider">Amazon Web Services</div>
+    </div>
+    <div class="cert-card reveal">
+      <div class="cert-icon"><i class="fab fa-aws"></i></div>
+      <div class="cert-name">Solutions Architect Associate</div>
+      <div class="cert-provider">Amazon Web Services</div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION & PROJECT -->
+<section id="education" class="container">
+  <h2 class="section-title reveal">Education</h2>
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="timeline-card">
+        <div class="timeline-date">2015 — 2019</div>
+        <div class="timeline-role">Bachelor of Technology — Computer Science & Engineering</div>
+        <div class="timeline-company"><i class="fas fa-graduation-cap"></i> Institute of Engineering and Management, Kolkata</div>
+        <ul>
+          <li>CGPA: 8.45 / 10</li>
+          <li>Related Coursework: Computer Architecture, Network Systems, Digital Communication, Operating Systems</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section-title reveal" style="margin-top:60px">Technical Project</h2>
+  <div class="cards-grid">
+    <div class="glass-card reveal" style="grid-column: span 2;">
+      <div class="card-icon"><i class="fas fa-taxi"></i></div>
+      <div class="card-title">Cab Service (UBER CLONE) — Data Processing Project</div>
+      <div class="card-sub">End-to-End GCP Data Pipeline</div>
+      <div class="card-text">An end-to-end project starting with a CSV file — created a logical design, transformed the dataset, used GCP Dataform and Composer for ETL pipeline creation, BigQuery for data exploration, and Looker for the dashboard.</div>
+      <div class="skills-used" style="margin-top:12px">GCP · Dataform · Composer · BigQuery · Looker · ETL</div>
+    </div>
+  </div>
+</section>
+
+<!-- HIGHLIGHTS -->
+<section id="highlights" class="container">
+  <h2 class="section-title reveal">Career Highlights</h2>
+  <div class="cards-grid">
+    <div class="glass-card reveal">
+      <div class="card-icon"><i class="fas fa-rocket"></i></div>
+      <div class="card-title">400+ TB Migration</div>
+      <div class="card-sub">Legacy DW → Snowflake @ phData</div>
+      <div class="card-text">Created an end-to-end pipeline to migrate 400+ Terabytes from Legacy Data Warehouse to Snowflake with custom validation tooling to prevent data loss.</div>
+    </div>
+    <div class="glass-card reveal">
+      <div class="card-icon"><i class="fas fa-heartbeat"></i></div>
+      <div class="card-title">Healthcare Data at Scale</div>
+      <div class="card-sub">8.5M Records/Day · 99.99% Uptime</div>
+      <div class="card-text">Built AWS/Databricks pipeline processing 8.5M patient records daily across 7 healthcare facilities with zero data loss, saving $200K annually.</div>
+    </div>
+    <div class="glass-card reveal">
+      <div class="card-icon"><i class="fab fa-google"></i></div>
+      <div class="card-title">Google Cloud Engineering</div>
+      <div class="card-sub">DAG Factory · Terraform · Vertex AI</div>
+      <div class="card-text">Engineered real-time email ingestion pipeline into BigQuery for Vertex AI, built scalable DAG Factory framework, and deployed entire IaC solution via Terraform.</div>
+    </div>
+    <div class="glass-card reveal">
+      <div class="card-icon"><i class="fas fa-certificate"></i></div>
+      <div class="card-title">Triple Cloud Certified</div>
+      <div class="card-sub">GCP · AWS (×2)</div>
+      <div class="card-text">Achieved professional certifications across Google Cloud and AWS — demonstrating deep expertise in multi-cloud data engineering and architecture.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="container">
+  <div class="contact-wrapper reveal">
+    <h3>Let's Connect</h3>
+    <p>Open to exciting data engineering opportunities and collaborations.</p>
+    <div class="contact-links">
+      <a href="mailto:arnavm014@gmail.com" class="contact-link"><i class="fas fa-envelope"></i> arnavm014@gmail.com</a>
+      <a href="https://www.linkedin.com/in/arnab1408/" target="_blank" class="contact-link"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+      <a href="https://github.com/arnabm14" target="_blank" class="contact-link"><i class="fab fa-github"></i> GitHub</a>
+      <a href="tel:+916290729774" class="contact-link"><i class="fas fa-phone"></i> +91 6290729774</a>
+    </div>
+  </div>
+</section>
+
+<footer><p>© 2025 Arnab Mondal · Built with ⚡ passion for data.</p></footer>
+<script src="script.js"></script>
+</body>
+</html>
