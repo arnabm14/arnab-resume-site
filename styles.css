@@ -220,13 +220,17 @@ p {
   transition: opacity var(--dur-long) var(--ease-out), transform var(--dur-long) var(--ease-out);
 }
 
-.bento-card:nth-of-type(2) { transition-delay: 40ms; }
-.bento-card:nth-of-type(3) { transition-delay: 80ms; }
-.bento-card:nth-of-type(4) { transition-delay: 120ms; }
+.js .bento-card[data-reveal]:not([data-reveal="in"]):nth-of-type(2) { transition-delay: 40ms; }
+.js .bento-card[data-reveal]:not([data-reveal="in"]):nth-of-type(3) { transition-delay: 80ms; }
+.js .bento-card[data-reveal]:not([data-reveal="in"]):nth-of-type(4) { transition-delay: 120ms; }
 
 .js [data-reveal="in"] {
   opacity: 1;
   transform: translateY(0);
+}
+
+section[id], main[id] {
+  scroll-margin-top: calc(var(--nav-height) + var(--space-lg));
 }
 
 /* Buttons: ONE filled primary style, quiet outline/ghost secondary */
@@ -753,40 +757,34 @@ p {
   position: relative;
   display: inline-flex;
   flex-wrap: nowrap;
-  gap: var(--space-2xs);
-  padding: var(--space-2xs);
-  background-color: var(--color-paper-2);
-  color: var(--color-ink);
-  border: 1px solid var(--color-rule);
-  border-radius: var(--radius-input);
+  gap: var(--space-xs);
+  padding-bottom: var(--space-2xs);
+  border-bottom: 1px solid var(--color-rule);
   margin-bottom: var(--space-lg);
   max-width: 100%;
-  overflow-x: auto;
 }
 
 .seg-indicator {
   position: absolute;
-  top: var(--space-2xs);
+  bottom: -1px;
   left: 0;
-  height: calc(100% - var(--space-xs));
-  background-color: var(--color-paper);
-  border: 1px solid var(--color-rule);
-  border-radius: 4px;
+  width: 1px;
+  height: 2px;
+  background-color: var(--color-accent);
   pointer-events: none;
   transform-origin: left center;
   transition: transform var(--dur-short) var(--ease-out);
-  z-index: 0;
+  z-index: 1;
 }
 
 .seg-tab {
   position: relative;
   z-index: 1;
   min-height: 36px;
-  padding: 0 var(--space-md);
+  padding: 0 var(--space-sm);
   background-color: transparent;
   color: var(--color-muted);
   border: 0;
-  border-radius: 4px;
   font-family: var(--font-body);
   font-size: var(--text-sm);
   font-weight: 500;
@@ -865,14 +863,14 @@ p {
 .arch-diagram .svg-label {
   fill: var(--color-ink);
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 500;
 }
 
 .arch-diagram .svg-sub {
   fill: var(--color-muted);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 10.5px;
 }
 
 /* SECTION 5: CAREER LEDGER & CREDENTIALS */
@@ -1184,6 +1182,29 @@ dialog.cmd-dialog::backdrop {
 
   .footer-colophon {
     text-align: left;
+  }
+}
+
+@media (max-width: 560px) {
+  .l2-kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .l2-kpi:first-child {
+    grid-column: span 2;
+  }
+
+  .seg-control {
+    flex-wrap: wrap;
+    row-gap: var(--space-2xs);
+  }
+
+  .seg-indicator {
+    display: none;
+  }
+
+  .seg-tab[aria-selected="true"] {
+    border-bottom: 2px solid var(--color-accent);
   }
 }
 

@@ -110,28 +110,19 @@ a {
   line-height: 1.31;
 }
 
-/* Sections */
+/* Sections — NO position: relative so Chromium Skia PDF emits 100% linear ATS text stream */
 .section { margin-bottom: 5.5pt; }
 .section:last-child { margin-bottom: 0; }
 .section-title {
-  position: relative;
   font-size: 8.0pt;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #111715;
   border-bottom: 0.75pt solid #cdd4d0;
-  padding-bottom: 2pt;
+  background: linear-gradient(#006d45, #006d45) left bottom / 24pt 1.5pt no-repeat;
+  padding-bottom: 2.5pt;
   margin-bottom: 3.8pt;
-}
-.section-title::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -0.75pt;
-  width: 24pt;
-  height: 1.5pt;
-  background: #006d45;
 }
 
 /* Skills */
@@ -161,24 +152,18 @@ a {
 
 ul.bullets {
   margin-top: 1.6pt;
-  padding-left: 11pt;
-  list-style: none;
+  padding-left: 11.5pt;
+  list-style-type: square;
   display: flex;
   flex-direction: column;
   gap: 1.4pt;
 }
 ul.bullets li {
-  position: relative;
   color: #262e2a;
 }
-ul.bullets li::before {
-  content: "";
-  position: absolute;
-  left: -8pt;
-  top: 4.2pt;
-  width: 2.4pt;
-  height: 2.4pt;
-  background: #006d45;
+ul.bullets li::marker {
+  color: #006d45;
+  font-size: 0.72em;
 }
 ul.bullets li strong { color: #111715; font-weight: 600; }
 
@@ -294,7 +279,7 @@ const EDITIONS = [
       '<strong>Real-Time BigQuery to Vertex AI Pipeline:</strong> Engineered a real-time organizational email ingestion pipeline into BigQuery serving as a foundational training and inference data plane for Google Cloud Vertex AI.',
       '<strong>MLOps / DataOps DAG Factory & Terraform IaC:</strong> Built a reusable Apache Airflow DAG Factory and orchestrated full Terraform IaC deployments across Dev, Staging, and Production for repeatable AI/data lifecycle management.',
       '<strong>Cross-Cloud Apache Iceberg Lakehouse:</strong> Engineered AWS-to-GCP ETL pipelines via STS migrating Hive-partitioned Parquet and Apache Iceberg datasets into BigQuery for unified enterprise analytics and AI workloads.',
-      '<strong>Automation & Scheduling Infrastructure:</strong> Automated Dataform/BigQuery SQL optimization in Python, owned a custom Cloud Composer holiday-aware calendar plugin, delivered Phase 1 bare-metal migration, and led architecture reviews.'
+      '<strong>Automation & Scheduling Infrastructure:</strong> Automated Dataform/BigQuery SQL optimization in Python, owned a custom Cloud Composer holiday&#8209;aware calendar plugin, delivered Phase 1 bare&#8209;metal migration, and led architecture reviews.'
     ],
     usefulbiBullets: [
       '<strong>Regulated AI-Ready Healthcare Platform:</strong> Built AWS/Databricks ETL processing <strong>8.5M patient records/day at 99.99% uptime</strong> across 7 facilities (12 yrs history, zero data loss, 100% compliance/security governance).',
@@ -343,7 +328,7 @@ const EDITIONS = [
     ],
     googleRole: 'Data & Distributed Systems Engineer',
     googleBullets: [
-      '<strong>Low-Latency Real-Time Ingestion:</strong> Engineered a real-time event ingestion and processing pipeline into BigQuery designed for continuous high-volume capture and downstream quantitative/ML analytics in Vertex AI.',
+      '<strong>Low-Latency Real-Time Ingestion:</strong> Engineered a real-time event ingestion and processing pipeline into BigQuery designed for continuous high&#8209;volume capture and downstream quantitative/ML analytics in Vertex AI.',
       '<strong>Cross-Cloud Columnar Iceberg/Parquet Engine:</strong> Built AWS-to-GCP ETL systems migrating Apache Iceberg and Hive-partitioned Parquet columnar datasets via STS into BigQuery with custom high-throughput ingestion software.',
       '<strong>Business-Day Calendar Scheduler Plugin:</strong> Owned and engineered a custom Cloud Composer (Airflow) calendar plugin enforcing strict weekday/holiday execution rules (direct trading-calendar analog) with edge-case handling.',
       '<strong>Deterministic IaC DAG Factory & Vector Indexing:</strong> Architected a scalable Airflow DAG Factory deployed via Terraform IaC across Dev/Stage/Prod for reproducible pipelines; architected a high-speed vector database for compliant FHIR retrieval.',
@@ -367,7 +352,7 @@ const EDITIONS = [
       {
         name: 'TickForge: Live Binance L2 Limit Order Book, Bi-Temporal Parquet Lakehouse & Feed Reconciler',
         links: '<a href="https://tickforge-2dn.pages.dev">Live Terminal</a> | <a href="https://github.com/arnabm14/tickforge">GitHub</a>',
-        desc: 'Official buffer-first Binance WebSocket/REST L2 engine (sequence-gap & crossed-book invariants, microprice, OBI L1/L5/L10, $100K/$500K VWAP slippage), Zstd bi-temporal Parquet store proving 0.0% look-ahead bias on PIT replay, and WS-vs-REST drift auditor (<strong>1,545,576 events/sec, p50 0.5 us / p99 0.6 us</strong> on 50K replay; 3/3 OK live BTC/ETH/SOL reconcile; 5/5 tests).'
+        desc: 'Spec-compliant buffer-first Binance WebSocket/REST L2 engine (sequence-gap & crossed-book invariants, microprice, OBI L1/L5/L10, $100K/$500K VWAP slippage), Zstd bi-temporal Parquet store proving 0.0% look-ahead bias on PIT replay, and WS-vs-REST drift auditor (<strong>1,545,576 events/sec, p50 0.5 us / p99 0.6 us</strong> on 50K replay; 3/3 OK live BTC/ETH/SOL reconcile; 5/5 tests).'
       },
       {
         name: 'Cab Service (Uber Clone) GCP Data Processing Pipeline',

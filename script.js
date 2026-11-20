@@ -70,47 +70,47 @@
    * ----------------------------------------------------------------------- */
   const ARCH_DIAGRAMS = {
     gcp: {
-      title: 'FHIR Vector Store and Vertex AI Plane',
-      desc: 'Regulated FHIR vector database and real-time email ingestion into BigQuery feeding Vertex AI via a Terraform Airflow DAG Factory.',
+      title: 'FHIR Vector and Vertex AI',
+      desc: 'Regulated FHIR vector store and real-time BigQuery ingestion feeding Vertex AI via Terraform Airflow DAGs.',
       outcomes: [
-        'Cross-cloud AWS Iceberg and Parquet ingestion via STS into BigQuery.',
-        'Custom Cloud Composer holiday-aware business-day scheduler plugin.'
+        'AWS Iceberg and Parquet migration via STS into BigQuery.',
+        'Custom Composer holiday-aware weekday scheduler.'
       ],
-      stack: 'BigQuery, Vertex AI, Vector DB, Composer, Dataform, Terraform, Iceberg',
+      stack: 'BigQuery, Vertex AI, Vector DB, Composer, Terraform, Iceberg',
       label: 'Google Cloud FHIR vector database and Vertex AI ingestion topology',
       markup: `
-        <rect class="svg-node" x="24" y="34" width="160" height="68" rx="6"></rect>
-        <text class="svg-label" x="40" y="64">FHIR and Email Feeds</text>
-        <text class="svg-sub" x="40" y="84">AWS S3 / Iceberg / STS</text>
+        <rect class="svg-node" x="16" y="34" width="180" height="68" rx="6"></rect>
+        <text class="svg-label" x="28" y="64">FHIR and Email</text>
+        <text class="svg-sub" x="28" y="84">AWS S3 / Iceberg / STS</text>
 
-        <rect class="svg-node" x="24" y="142" width="160" height="68" rx="6"></rect>
-        <text class="svg-label" x="40" y="172">Composer DAG Factory</text>
-        <text class="svg-sub" x="40" y="192">Holiday Calendar Plugin</text>
+        <rect class="svg-node" x="16" y="142" width="180" height="68" rx="6"></rect>
+        <text class="svg-label" x="28" y="172">DAG Factory</text>
+        <text class="svg-sub" x="28" y="192">Holiday Calendar Plugin</text>
 
-        <rect class="svg-node-accent" x="228" y="88" width="164" height="74" rx="6"></rect>
-        <text class="svg-label" x="244" y="120">BigQuery + Dataform</text>
-        <text class="svg-sub" x="244" y="142">Terraform Dev / Prod</text>
+        <rect class="svg-node-accent" x="230" y="88" width="180" height="74" rx="6"></rect>
+        <text class="svg-label" x="242" y="120">BigQuery + Dataform</text>
+        <text class="svg-sub" x="242" y="142">Terraform Dev / Prod</text>
 
-        <rect class="svg-node" x="432" y="34" width="144" height="68" rx="6"></rect>
-        <text class="svg-label" x="448" y="64">FHIR Vector DB</text>
-        <text class="svg-sub" x="448" y="84">Clinical AI Retrieval</text>
+        <rect class="svg-node" x="444" y="34" width="180" height="68" rx="6"></rect>
+        <text class="svg-label" x="456" y="64">FHIR Vector DB</text>
+        <text class="svg-sub" x="456" y="84">Clinical AI Retrieval</text>
 
-        <rect class="svg-node" x="432" y="142" width="144" height="68" rx="6"></rect>
-        <text class="svg-label" x="448" y="172">Vertex AI Models</text>
-        <text class="svg-sub" x="448" y="192">Real-Time ML Plane</text>
+        <rect class="svg-node" x="444" y="142" width="180" height="68" rx="6"></rect>
+        <text class="svg-label" x="456" y="172">Vertex AI Models</text>
+        <text class="svg-sub" x="456" y="192">Real-Time ML Plane</text>
 
-        <rect class="svg-node" x="24" y="250" width="552" height="58" rx="6"></rect>
-        <text class="svg-label" x="40" y="284">Governance: Terraform IaC, automated SQL optimization, zero-drift checks</text>
+        <rect class="svg-node" x="16" y="250" width="608" height="58" rx="6"></rect>
+        <text class="svg-label" x="28" y="284">Terraform Dev / Prod, Dataform SQL automation, zero-drift checks</text>
 
-        <path class="svg-edge" d="M 184 68 L 228 114"></path>
-        <path class="svg-edge" d="M 184 176 L 228 136"></path>
-        <path class="svg-edge" d="M 392 114 L 432 68"></path>
-        <path class="svg-edge" d="M 392 136 L 432 176"></path>
+        <path class="svg-edge" d="M 196 68 L 230 114"></path>
+        <path class="svg-edge" d="M 196 176 L 230 136"></path>
+        <path class="svg-edge" d="M 410 114 L 444 68"></path>
+        <path class="svg-edge" d="M 410 136 L 444 176"></path>
       `
     },
     tickforge: {
       title: 'Bi-Temporal Order Book and Reconciler',
-      desc: 'Buffers WebSocket depth diffs prior to REST snapshot alignment so every sequence gap or crossed book is detected before writing Zstd Parquet partitions.',
+      desc: 'Buffers WebSocket depth diffs prior to REST snapshot alignment so sequence gaps or crossed books are caught before writing Zstd Parquet.',
       outcomes: [
         'Point-in-time backtest replay verifies zero future look-ahead leaks.',
         'Live BTC, ETH, and SOL reconciliation passed 3/3 with zero drift.'
@@ -118,38 +118,38 @@
       stack: 'Python, PyArrow Parquet (Zstd), Async WebSocket, Microprice, OBI, VWAP',
       label: 'TickForge Binance L2 order book and bi-temporal Parquet lakehouse topology',
       markup: `
-        <rect class="svg-node" x="24" y="34" width="160" height="68" rx="6"></rect>
-        <text class="svg-label" x="40" y="64">Binance Depth WS</text>
-        <text class="svg-sub" x="40" y="84">Buffer-First Diffs</text>
+        <rect class="svg-node" x="16" y="34" width="180" height="68" rx="6"></rect>
+        <text class="svg-label" x="28" y="64">Binance Depth WS</text>
+        <text class="svg-sub" x="28" y="84">Buffer-First Diffs</text>
 
-        <rect class="svg-node" x="24" y="142" width="160" height="68" rx="6"></rect>
-        <text class="svg-label" x="40" y="172">REST Depth Snapshot</text>
-        <text class="svg-sub" x="40" y="192">lastUpdateId Sync</text>
+        <rect class="svg-node" x="16" y="142" width="180" height="68" rx="6"></rect>
+        <text class="svg-label" x="28" y="172">REST Snapshot</text>
+        <text class="svg-sub" x="28" y="192">lastUpdateId Sync</text>
 
-        <rect class="svg-node-accent" x="228" y="88" width="164" height="74" rx="6"></rect>
-        <text class="svg-label" x="244" y="120">L2 OrderBook Engine</text>
-        <text class="svg-sub" x="244" y="142">1.54M/s | 0.6 us p99</text>
+        <rect class="svg-node-accent" x="230" y="88" width="180" height="74" rx="6"></rect>
+        <text class="svg-label" x="242" y="120">L2 Book Engine</text>
+        <text class="svg-sub" x="242" y="142">1.54M/s | 0.6 us p99</text>
 
-        <rect class="svg-node" x="432" y="34" width="144" height="68" rx="6"></rect>
-        <text class="svg-label" x="448" y="64">Bi-Temporal Parquet</text>
-        <text class="svg-sub" x="448" y="84">Zstd | 0 PIT Leaks</text>
+        <rect class="svg-node" x="444" y="34" width="180" height="68" rx="6"></rect>
+        <text class="svg-label" x="456" y="64">Parquet Lakehouse</text>
+        <text class="svg-sub" x="456" y="84">Zstd | 0 PIT Leaks</text>
 
-        <rect class="svg-node" x="432" y="142" width="144" height="68" rx="6"></rect>
-        <text class="svg-label" x="448" y="172">Feed Reconciler</text>
-        <text class="svg-sub" x="448" y="192">3/3 OK BTC/ETH/SOL</text>
+        <rect class="svg-node" x="444" y="142" width="180" height="68" rx="6"></rect>
+        <text class="svg-label" x="456" y="172">Feed Reconciler</text>
+        <text class="svg-sub" x="456" y="192">3/3 OK BTC/ETH/SOL</text>
 
-        <rect class="svg-node" x="24" y="250" width="552" height="58" rx="6"></rect>
-        <text class="svg-label" x="40" y="284">Invariants: Zero sequence gaps, zero crossed books, VWAP slippage audited</text>
+        <rect class="svg-node" x="16" y="250" width="608" height="58" rx="6"></rect>
+        <text class="svg-label" x="28" y="284">Invariants: Zero sequence gaps, zero crossed books, VWAP slippage audited</text>
 
-        <path class="svg-edge" d="M 184 68 L 228 114"></path>
-        <path class="svg-edge" d="M 184 176 L 228 136"></path>
-        <path class="svg-edge" d="M 392 114 L 432 68"></path>
-        <path class="svg-edge" d="M 392 136 L 432 176"></path>
+        <path class="svg-edge" d="M 196 68 L 230 114"></path>
+        <path class="svg-edge" d="M 196 176 L 230 136"></path>
+        <path class="svg-edge" d="M 410 114 L 444 68"></path>
+        <path class="svg-edge" d="M 410 136 L 444 176"></path>
       `
     },
     aws: {
       title: 'High-Availability Healthcare Lakehouse',
-      desc: 'Processed 8.5M daily patient records across seven facilities and twelve years of history with zero data loss and full security compliance.',
+      desc: 'Processed 8.5M daily patient records across seven facilities and twelve years of history with zero data loss and full compliance.',
       outcomes: [
         'Migrated 15TB to AWS, lowering infrastructure costs by 32%.',
         'Tuned Databricks clusters to save $200K annually at 65% higher capacity.'
@@ -157,33 +157,33 @@
       stack: 'AWS, PySpark, Databricks, Starburst, ETL Governance, Cost Engineering',
       label: 'UsefulBI AWS and Databricks 8.5M daily healthcare ETL topology',
       markup: `
-        <rect class="svg-node" x="24" y="34" width="160" height="68" rx="6"></rect>
-        <text class="svg-label" x="40" y="64">7 Clinical Facilities</text>
-        <text class="svg-sub" x="40" y="84">12 Yrs Patient Data</text>
+        <rect class="svg-node" x="16" y="34" width="180" height="68" rx="6"></rect>
+        <text class="svg-label" x="28" y="64">7 Health Facilities</text>
+        <text class="svg-sub" x="28" y="84">12 Yrs Patient Data</text>
 
-        <rect class="svg-node" x="24" y="142" width="160" height="68" rx="6"></rect>
-        <text class="svg-label" x="40" y="172">15TB Cloud Cutover</text>
-        <text class="svg-sub" x="40" y="192">-32% Infra Spend</text>
+        <rect class="svg-node" x="16" y="142" width="180" height="68" rx="6"></rect>
+        <text class="svg-label" x="28" y="172">15TB AWS Cutover</text>
+        <text class="svg-sub" x="28" y="192">-32% Infra Spend</text>
 
-        <rect class="svg-node-accent" x="228" y="88" width="164" height="74" rx="6"></rect>
-        <text class="svg-label" x="244" y="120">AWS + Databricks</text>
-        <text class="svg-sub" x="244" y="142">8.5M/day | 99.99% SLA</text>
+        <rect class="svg-node-accent" x="230" y="88" width="180" height="74" rx="6"></rect>
+        <text class="svg-label" x="242" y="120">AWS + Databricks</text>
+        <text class="svg-sub" x="242" y="142">8.5M/day | 99.99% SLA</text>
 
-        <rect class="svg-node" x="432" y="34" width="144" height="68" rx="6"></rect>
-        <text class="svg-label" x="448" y="64">Starburst Serving</text>
-        <text class="svg-sub" x="448" y="84">+65% Peak Capacity</text>
+        <rect class="svg-node" x="444" y="34" width="180" height="68" rx="6"></rect>
+        <text class="svg-label" x="456" y="64">Starburst Serving</text>
+        <text class="svg-sub" x="456" y="84">+65% Peak Capacity</text>
 
-        <rect class="svg-node" x="432" y="142" width="144" height="68" rx="6"></rect>
-        <text class="svg-label" x="448" y="172">Security Audit</text>
-        <text class="svg-sub" x="448" y="192">100% Compliance</text>
+        <rect class="svg-node" x="444" y="142" width="180" height="68" rx="6"></rect>
+        <text class="svg-label" x="456" y="172">Security Audit</text>
+        <text class="svg-sub" x="456" y="192">100% Compliance</text>
 
-        <rect class="svg-node" x="24" y="250" width="552" height="58" rx="6"></rect>
-        <text class="svg-label" x="40" y="284">Outcome: $200K/yr Databricks compute saved with zero patient record loss</text>
+        <rect class="svg-node" x="16" y="250" width="608" height="58" rx="6"></rect>
+        <text class="svg-label" x="28" y="284">Outcome: $200K/yr Databricks compute saved with zero record loss</text>
 
-        <path class="svg-edge" d="M 184 68 L 228 114"></path>
-        <path class="svg-edge" d="M 184 176 L 228 136"></path>
-        <path class="svg-edge" d="M 392 114 L 432 68"></path>
-        <path class="svg-edge" d="M 392 136 L 432 176"></path>
+        <path class="svg-edge" d="M 196 68 L 230 114"></path>
+        <path class="svg-edge" d="M 196 176 L 230 136"></path>
+        <path class="svg-edge" d="M 410 114 L 444 68"></path>
+        <path class="svg-edge" d="M 410 136 L 444 176"></path>
       `
     },
     snow: {
@@ -196,57 +196,57 @@
       stack: 'Snowflake, dbt Cloud API, Azure Repos, Python, Automated Reconciliation',
       label: 'phData 400+ TB Teradata to Snowflake migration and dbt Git CRUD API topology',
       markup: `
-        <rect class="svg-node" x="24" y="34" width="160" height="68" rx="6"></rect>
-        <text class="svg-label" x="40" y="64">Legacy Teradata</text>
-        <text class="svg-sub" x="40" y="84">400+ TB + SQL Server</text>
+        <rect class="svg-node" x="16" y="34" width="180" height="68" rx="6"></rect>
+        <text class="svg-label" x="28" y="64">Legacy Teradata</text>
+        <text class="svg-sub" x="28" y="84">400+ TB + SQL Server</text>
 
-        <rect class="svg-node" x="24" y="142" width="160" height="68" rx="6"></rect>
-        <text class="svg-label" x="40" y="172">Azure Repos Git CI</text>
-        <text class="svg-sub" x="40" y="192">dbt Cloud CRUD API</text>
+        <rect class="svg-node" x="16" y="142" width="180" height="68" rx="6"></rect>
+        <text class="svg-label" x="28" y="172">Azure Repos Git</text>
+        <text class="svg-sub" x="28" y="192">dbt Cloud CRUD API</text>
 
-        <rect class="svg-node-accent" x="228" y="88" width="164" height="74" rx="6"></rect>
-        <text class="svg-label" x="244" y="120">Snowflake Cloud DW</text>
-        <text class="svg-sub" x="244" y="142">Zero-Loss Cutover</text>
+        <rect class="svg-node-accent" x="230" y="88" width="180" height="74" rx="6"></rect>
+        <text class="svg-label" x="242" y="120">Snowflake DW</text>
+        <text class="svg-sub" x="242" y="142">Zero-Loss Cutover</text>
 
-        <rect class="svg-node" x="432" y="34" width="144" height="68" rx="6"></rect>
-        <text class="svg-label" x="448" y="64">Row/Hash Validator</text>
-        <text class="svg-sub" x="448" y="84">Drift Detection Tool</text>
+        <rect class="svg-node" x="444" y="34" width="180" height="68" rx="6"></rect>
+        <text class="svg-label" x="456" y="64">Hash Validator</text>
+        <text class="svg-sub" x="456" y="84">Drift Detection Tool</text>
 
-        <rect class="svg-node" x="432" y="142" width="144" height="68" rx="6"></rect>
-        <text class="svg-label" x="448" y="172">Published Guides</text>
-        <text class="svg-sub" x="448" y="192">2 phData Tech Blogs</text>
+        <rect class="svg-node" x="444" y="142" width="180" height="68" rx="6"></rect>
+        <text class="svg-label" x="456" y="172">Published Guides</text>
+        <text class="svg-sub" x="456" y="192">2 phData Tech Blogs</text>
 
-        <rect class="svg-node" x="24" y="250" width="552" height="58" rx="6"></rect>
-        <text class="svg-label" x="40" y="284">Verification: Automated row and hash parity across 400+ TB partitions</text>
+        <rect class="svg-node" x="16" y="250" width="608" height="58" rx="6"></rect>
+        <text class="svg-label" x="28" y="284">Verification: Automated row and hash parity across 400+ TB partitions</text>
 
-        <path class="svg-edge" d="M 184 68 L 228 114"></path>
-        <path class="svg-edge" d="M 184 176 L 228 136"></path>
-        <path class="svg-edge" d="M 392 114 L 432 68"></path>
-        <path class="svg-edge" d="M 392 136 L 432 176"></path>
+        <path class="svg-edge" d="M 196 68 L 230 114"></path>
+        <path class="svg-edge" d="M 196 176 L 230 136"></path>
+        <path class="svg-edge" d="M 410 114 L 444 68"></path>
+        <path class="svg-edge" d="M 410 136 L 444 176"></path>
       `
     }
   };
 
   const RESUME_EDITIONS = {
     general: {
-      title: 'Senior Data and Cloud Platform Edition',
-      desc: 'Google Cloud FHIR vector architecture, Vertex AI pipelines, 400+ TB Snowflake migrations, and TickForge benchmarks.',
+      title: 'Senior Data and Cloud Platform',
+      desc: 'FHIR vector DB, Vertex AI, 400+ TB Snowflake, and TickForge.',
       modernHref: 'resumes/Arnab_Mondal_Resume_2026_Modern.pdf',
-      modernLabel: 'Download 1-Page Modern PDF',
+      modernLabel: '1-Page Modern PDF',
       fullHref: 'resumes/Arnab_Mondal_Resume_2026.pdf'
     },
     ai: {
-      title: 'Applied AI and ML Platform Edition',
-      desc: 'Tailored for applied AI and ML infrastructure teams: FHIR semantic retrieval, Vertex AI real-time data planes, MediPulse Edge AI, and MCP agent workflows.',
+      title: 'Applied AI and ML Platforms',
+      desc: 'FHIR semantic retrieval, Vertex AI real-time pipelines, MediPulse Edge AI, and MCP agent workflows.',
       modernHref: 'resumes/Arnab_Mondal_Applied_AI_2026_Modern.pdf',
-      modernLabel: 'Download 1-Page Applied AI PDF',
+      modernLabel: '1-Page Applied AI PDF',
       fullHref: 'resumes/Arnab_Mondal_Applied_AI_2026.pdf'
     },
     quant: {
-      title: 'Quantitative Data and Systems Edition',
-      desc: 'Tailored for trading and quant infrastructure teams: C++/Python/Java concurrency, TickForge L2 order book, bi-temporal Parquet, and holiday schedulers.',
+      title: 'Quantitative Data and Systems',
+      desc: 'Python/C++/Java concurrency, TickForge L2 order book, bi-temporal Parquet, and holiday schedulers.',
       modernHref: 'resumes/Arnab_Mondal_Quant_Systems_2026_Modern.pdf',
-      modernLabel: 'Download 1-Page Quant PDF',
+      modernLabel: '1-Page Quant PDF',
       fullHref: 'resumes/Arnab_Mondal_Quant_Data_Systems_2026.pdf'
     }
   };
@@ -278,7 +278,8 @@
     stack: [
       'Cloud and Lakehouse: GCP (BigQuery, Vertex AI, Composer, Dataform, Pub/Sub, Bigtable, STS), AWS (Glue, S3, Athena, Lambda), Snowflake, Databricks, Apache Iceberg, Starburst.',
       'Applied AI and Quant Data: Vector Databases (FHIR), Semantic Search/RAG, Real-Time Feature Ingestion, Bi-Temporal Parquet, Feed Reconciliation, MCP Agentic Workflows.',
-      'Systems and Orchestration: Python, C++, Java, SQL, PySpark, Apache Kafka, gRPC, Concurrency, Apache Airflow, dbt, Terraform, Kubernetes, Docker, CI/CD.'
+      'Languages and Distributed Systems: Python, C++, Java, SQL, PySpark, Apache Spark, Apache Kafka, Concurrency, gRPC, REST APIs, Hadoop, Hive, Impala.',
+      'Orchestration and IaC: Apache Airflow (Custom Plugins and DAG Factories), dbt, Terraform, Kubernetes, Docker, CI/CD, Git, OpenStack.'
     ]
   };
 
@@ -298,7 +299,6 @@
     if (!indicator || !active) return;
     const x = active.offsetLeft;
     const w = active.offsetWidth;
-    indicator.style.width = '1px';
     indicator.style.transform = `translateX(${x}px) scaleX(${w})`;
   }
 
@@ -308,19 +308,23 @@
       const tabs = Array.from(group.querySelectorAll('.seg-tab'));
       function activate(tab) {
         tabs.forEach((t) => {
-          t.setAttribute('aria-selected', t === tab ? 'true' : 'false');
+          const isSel = t === tab;
+          t.setAttribute('aria-selected', isSel ? 'true' : 'false');
+          t.setAttribute('tabindex', isSel ? '0' : '-1');
         });
         positionIndicator(group);
 
         const archKey = tab.dataset.archKey;
         if (archKey && ARCH_DIAGRAMS[archKey]) {
           const d = ARCH_DIAGRAMS[archKey];
+          const panel = document.getElementById('arch-detail');
           const titleEl = document.getElementById('arch-title');
           const descEl = document.getElementById('arch-desc');
           const outEl = document.getElementById('arch-outcomes');
           const stackEl = document.getElementById('arch-stack');
           const svg = document.getElementById('arch-svg');
           const content = document.getElementById('arch-svg-content');
+          if (panel && tab.id) panel.setAttribute('aria-labelledby', tab.id);
           if (titleEl) titleEl.textContent = d.title;
           if (descEl) descEl.textContent = d.desc;
           if (outEl) outEl.innerHTML = d.outcomes.map((o) => `<li>${o}</li>`).join('');
@@ -334,10 +338,12 @@
         const resKey = tab.dataset.resumeKey;
         if (resKey && RESUME_EDITIONS[resKey]) {
           const r = RESUME_EDITIONS[resKey];
+          const panel = document.getElementById('resume-panel');
           const titleEl = document.getElementById('res-title');
           const descEl = document.getElementById('res-desc');
           const modLink = document.getElementById('res-modern-link');
           const fullLink = document.getElementById('res-full-link');
+          if (panel && tab.id) panel.setAttribute('aria-labelledby', tab.id);
           if (titleEl) titleEl.textContent = r.title;
           if (descEl) descEl.textContent = r.desc;
           if (modLink) {
@@ -364,8 +370,15 @@
       positionIndicator(group);
     });
 
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        groups.forEach(positionIndicator);
+      });
+    }
+
     window.addEventListener('resize', () => {
       groups.forEach(positionIndicator);
+      drawSparkline();
     });
   }
 
@@ -449,7 +462,6 @@
     const accent = styles.getPropertyValue('--color-accent').trim() || '#006d45';
     const rule = styles.getPropertyValue('--color-rule').trim() || '#c5ccc9';
 
-    // Baseline hairline
     ctx.strokeStyle = rule;
     ctx.lineWidth = 1;
     ctx.beginPath();
@@ -464,7 +476,7 @@
       if (v < min) min = v;
       if (v > max) max = v;
     }
-    const span = Math.max(max - min, 0.5);
+    const span = Math.max(max - min, 0.05);
 
     ctx.strokeStyle = accent;
     ctx.lineWidth = 1.75;
@@ -477,6 +489,12 @@
       else ctx.lineTo(x, y);
     });
     ctx.stroke();
+  }
+
+  function fmtQty(raw) {
+    const q = parseFloat(raw);
+    if (!Number.isFinite(q)) return '0.000';
+    return q > 0 && q < 0.001 ? q.toFixed(5) : q.toFixed(3);
   }
 
   function renderOrderBook(bids, asks, seqText) {
@@ -499,7 +517,7 @@
     const asksEl = document.getElementById('l2-asks');
 
     if (midEl) midEl.textContent = '$' + mid.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    if (spreadEl) spreadEl.textContent = `${spreadBps.toFixed(2)} bps`;
+    if (spreadEl) spreadEl.textContent = `${spreadBps < 0.1 ? spreadBps.toFixed(3) : spreadBps.toFixed(2)} bps`;
     if (obiEl) obiEl.textContent = `${obi >= 0 ? '+' : ''}${obi.toFixed(2)}`;
     if (seqEl && seqText) seqEl.textContent = seqText;
 
@@ -508,7 +526,7 @@
         .slice(0, 3)
         .map(
           ([p, q]) =>
-            `<div class="l2-row l2-row-bid"><span class="l2-price-bid">${parseFloat(p).toFixed(2)}</span><span>${parseFloat(q).toFixed(3)}</span></div>`
+            `<div class="l2-row l2-row-bid"><span class="l2-price-bid">${parseFloat(p).toFixed(2)}</span><span>${fmtQty(q)}</span></div>`
         )
         .join('');
     }
@@ -517,7 +535,7 @@
         .slice(0, 3)
         .map(
           ([p, q]) =>
-            `<div class="l2-row l2-row-ask"><span class="l2-price-ask">${parseFloat(p).toFixed(2)}</span><span>${parseFloat(q).toFixed(3)}</span></div>`
+            `<div class="l2-row l2-row-ask"><span class="l2-price-ask">${parseFloat(p).toFixed(2)}</span><span>${fmtQty(q)}</span></div>`
         )
         .join('');
     }
@@ -530,12 +548,14 @@
   function startLiveBinance() {
     const statusEl = document.getElementById('l2-status');
     let tickCount = 0;
+    let restOk = false;
 
-    // Immediate REST snapshot so first paint has real Binance prices even before WS opens
     fetch('https://data-api.binance.vision/api/v3/depth?symbol=BTCUSDT&limit=5')
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => {
+        if (tickCount > 0) return;
         if (data && data.bids && data.asks) {
+          restOk = true;
           renderOrderBook(data.bids, data.asks, `REST #${data.lastUpdateId}`);
           if (statusEl && statusEl.textContent.startsWith('Connecting')) {
             statusEl.textContent = 'Live REST';
@@ -575,7 +595,7 @@
         if (fallbackUrl) {
           connectWS(fallbackUrl, null);
         } else if (statusEl && tickCount === 0) {
-          statusEl.textContent = 'Snapshot mode';
+          statusEl.textContent = restOk ? 'Live REST' : 'Sample snapshot';
         }
       };
     }
@@ -596,7 +616,7 @@
       .then((r) => (r.ok ? r.json() : null))
       .then((u) => {
         if (u && typeof u.public_repos === 'number') {
-          el.textContent = `GitHub live: arnabm14 (${u.public_repos} public repositories, Python, C++, Java, SQL, Terraform)`;
+          el.textContent = `GitHub live: arnabm14 (${u.public_repos} public repositories)`;
         }
       })
       .catch(() => {});
@@ -650,8 +670,10 @@
     cmdList.innerHTML = '';
     filteredCmds.forEach((cmd, idx) => {
       const li = document.createElement('li');
+      li.setAttribute('role', 'none');
       const btn = document.createElement('button');
       btn.type = 'button';
+      btn.id = `cmd-opt-${idx}`;
       btn.className = 'cmd-item';
       btn.setAttribute('role', 'option');
       btn.setAttribute('aria-selected', idx === selectedIdx ? 'true' : 'false');
@@ -663,6 +685,16 @@
       li.appendChild(btn);
       cmdList.appendChild(li);
     });
+    if (cmdInput) {
+      if (filteredCmds.length) {
+        const activeId = `cmd-opt-${selectedIdx}`;
+        cmdInput.setAttribute('aria-activedescendant', activeId);
+        const activeEl = document.getElementById(activeId);
+        if (activeEl) activeEl.scrollIntoView({ block: 'nearest' });
+      } else {
+        cmdInput.removeAttribute('aria-activedescendant');
+      }
+    }
   }
 
   function openCmdPalette() {
@@ -693,7 +725,10 @@
     });
 
     cmdInput.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowDown') {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        if (cmdDialog) cmdDialog.close();
+      } else if (e.key === 'ArrowDown') {
         e.preventDefault();
         if (filteredCmds.length) {
           selectedIdx = (selectedIdx + 1) % filteredCmds.length;

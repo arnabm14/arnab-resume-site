@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Arnab Mondal, Data and Applied AI Platform Engineer at Google Cloud. Petabyte cloud platforms, FHIR vector databases, 400+ TB Snowflake migrations, and TickForge live Binance L2 market data engine.">
   <title>Arnab Mondal, Cloud Data and Applied AI Engineer</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23006d45'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='sans-serif' font-size='16' font-weight='700' fill='%23f7fbf9'%3EA%3C/text%3E%3C/svg%3E">
   <script>
     (function () {
       document.documentElement.classList.add('js');
@@ -235,13 +236,13 @@
           <div>
             <div class="seg-control" role="tablist" aria-label="System architecture selector" data-seg-group="arch">
               <span class="seg-indicator" aria-hidden="true"></span>
-              <button class="seg-tab" role="tab" aria-selected="true" aria-controls="arch-detail" data-arch-key="gcp" type="button">Google Cloud</button>
-              <button class="seg-tab" role="tab" aria-selected="false" aria-controls="arch-detail" data-arch-key="tickforge" type="button">TickForge</button>
-              <button class="seg-tab" role="tab" aria-selected="false" aria-controls="arch-detail" data-arch-key="aws" type="button">UsefulBI</button>
-              <button class="seg-tab" role="tab" aria-selected="false" aria-controls="arch-detail" data-arch-key="snow" type="button">Snowflake</button>
+              <button class="seg-tab" id="tab-arch-gcp" role="tab" tabindex="0" aria-selected="true" aria-controls="arch-detail" data-arch-key="gcp" type="button">Google Cloud</button>
+              <button class="seg-tab" id="tab-arch-tickforge" role="tab" tabindex="-1" aria-selected="false" aria-controls="arch-detail" data-arch-key="tickforge" type="button">TickForge</button>
+              <button class="seg-tab" id="tab-arch-aws" role="tab" tabindex="-1" aria-selected="false" aria-controls="arch-detail" data-arch-key="aws" type="button">UsefulBI</button>
+              <button class="seg-tab" id="tab-arch-snow" role="tab" tabindex="-1" aria-selected="false" aria-controls="arch-detail" data-arch-key="snow" type="button">Snowflake</button>
             </div>
 
-            <div class="arch-panel" id="arch-detail" role="tabpanel" data-active="true">
+            <div class="arch-panel" id="arch-detail" role="tabpanel" aria-labelledby="tab-arch-gcp" data-active="true">
               <h3 id="arch-title">FHIR Vector and Vertex AI</h3>
               <p id="arch-desc">Regulated FHIR vector store and real-time BigQuery ingestion feeding Vertex AI via Terraform Airflow DAGs.</p>
               <ul class="arch-outcomes" id="arch-outcomes">
@@ -253,35 +254,35 @@
           </div>
 
           <div class="arch-sticky">
-            <svg id="arch-svg" class="arch-diagram" viewBox="0 0 600 340" role="img" aria-label="Google Cloud FHIR vector database and Vertex AI ingestion topology">
+            <svg id="arch-svg" class="arch-diagram" viewBox="0 0 640 340" role="img" aria-label="Google Cloud FHIR vector database and Vertex AI ingestion topology">
               <g id="arch-svg-content">
-                <rect class="svg-node" x="24" y="34" width="160" height="68" rx="6"></rect>
-                <text class="svg-label" x="40" y="64">FHIR / Email</text>
-                <text class="svg-sub" x="40" y="84">Iceberg STS</text>
+                <rect class="svg-node" x="16" y="34" width="180" height="68" rx="6"></rect>
+                <text class="svg-label" x="28" y="64">FHIR and Email</text>
+                <text class="svg-sub" x="28" y="84">AWS S3 / Iceberg / STS</text>
 
-                <rect class="svg-node" x="24" y="142" width="160" height="68" rx="6"></rect>
-                <text class="svg-label" x="40" y="172">DAG Factory</text>
-                <text class="svg-sub" x="40" y="192">Holiday Plugin</text>
+                <rect class="svg-node" x="16" y="142" width="180" height="68" rx="6"></rect>
+                <text class="svg-label" x="28" y="172">DAG Factory</text>
+                <text class="svg-sub" x="28" y="192">Holiday Calendar Plugin</text>
 
-                <rect class="svg-node-accent" x="228" y="88" width="164" height="74" rx="6"></rect>
-                <text class="svg-label" x="244" y="120">BigQuery</text>
-                <text class="svg-sub" x="244" y="142">Terraform IaC</text>
+                <rect class="svg-node-accent" x="230" y="88" width="180" height="74" rx="6"></rect>
+                <text class="svg-label" x="242" y="120">BigQuery + Dataform</text>
+                <text class="svg-sub" x="242" y="142">Terraform Dev / Prod</text>
 
-                <rect class="svg-node" x="432" y="34" width="144" height="68" rx="6"></rect>
-                <text class="svg-label" x="448" y="64">Vector DB</text>
-                <text class="svg-sub" x="448" y="84">FHIR AI</text>
+                <rect class="svg-node" x="444" y="34" width="180" height="68" rx="6"></rect>
+                <text class="svg-label" x="456" y="64">FHIR Vector DB</text>
+                <text class="svg-sub" x="456" y="84">Clinical AI Retrieval</text>
 
-                <rect class="svg-node" x="432" y="142" width="144" height="68" rx="6"></rect>
-                <text class="svg-label" x="448" y="172">Vertex AI</text>
-                <text class="svg-sub" x="448" y="192">ML Plane</text>
+                <rect class="svg-node" x="444" y="142" width="180" height="68" rx="6"></rect>
+                <text class="svg-label" x="456" y="172">Vertex AI Models</text>
+                <text class="svg-sub" x="456" y="192">Real-Time ML Plane</text>
 
-                <rect class="svg-node" x="24" y="250" width="552" height="58" rx="6"></rect>
-                <text class="svg-label" x="40" y="284">Terraform Dev / Prod, Dataform SQL automation</text>
+                <rect class="svg-node" x="16" y="250" width="608" height="58" rx="6"></rect>
+                <text class="svg-label" x="28" y="284">Terraform Dev / Prod, Dataform SQL automation, zero-drift checks</text>
 
-                <path class="svg-edge" d="M 184 68 L 228 114"></path>
-                <path class="svg-edge" d="M 184 176 L 228 136"></path>
-                <path class="svg-edge" d="M 392 114 L 432 68"></path>
-                <path class="svg-edge" d="M 392 136 L 432 176"></path>
+                <path class="svg-edge" d="M 196 68 L 230 114"></path>
+                <path class="svg-edge" d="M 196 176 L 230 136"></path>
+                <path class="svg-edge" d="M 410 114 L 444 68"></path>
+                <path class="svg-edge" d="M 410 136 L 444 176"></path>
               </g>
             </svg>
           </div>
@@ -386,12 +387,12 @@
         <div class="resume-studio">
           <div class="seg-control" role="tablist" aria-label="Resume edition selector" data-seg-group="resume">
             <span class="seg-indicator" aria-hidden="true"></span>
-            <button class="seg-tab" role="tab" aria-selected="true" aria-controls="resume-panel" data-resume-key="general" type="button">General</button>
-            <button class="seg-tab" role="tab" aria-selected="false" aria-controls="resume-panel" data-resume-key="ai" type="button">Applied AI</button>
-            <button class="seg-tab" role="tab" aria-selected="false" aria-controls="resume-panel" data-resume-key="quant" type="button">Quant</button>
+            <button class="seg-tab" id="tab-res-general" role="tab" tabindex="0" aria-selected="true" aria-controls="resume-panel" data-resume-key="general" type="button">General</button>
+            <button class="seg-tab" id="tab-res-ai" role="tab" tabindex="-1" aria-selected="false" aria-controls="resume-panel" data-resume-key="ai" type="button">Applied AI</button>
+            <button class="seg-tab" id="tab-res-quant" role="tab" tabindex="-1" aria-selected="false" aria-controls="resume-panel" data-resume-key="quant" type="button">Quant</button>
           </div>
 
-          <div class="resume-panel" id="resume-panel" role="tabpanel" data-active="true">
+          <div class="resume-panel" id="resume-panel" role="tabpanel" aria-labelledby="tab-res-general" data-active="true">
             <div class="resume-meta">
               <h3 id="res-title">Senior Data and Cloud Platform</h3>
               <p id="res-desc">FHIR vector DB, Vertex AI, 400+ TB Snowflake, and TickForge.</p>
@@ -430,7 +431,7 @@
   <!-- NATIVE COMMAND PALETTE DIALOG -->
   <dialog class="cmd-dialog" id="cmd-dialog" aria-label="Quick command index">
     <div class="cmd-input-wrap">
-      <input class="cmd-input" id="cmd-input" type="search" placeholder="Jump to section, download PDF, toggle theme…" autocomplete="off" aria-label="Filter commands">
+      <input class="cmd-input" id="cmd-input" type="text" role="combobox" aria-autocomplete="list" aria-controls="cmd-list" aria-expanded="true" placeholder="Jump to section, download PDF, toggle theme…" autocomplete="off" aria-label="Filter commands">
       <button class="icon-btn" id="cmd-close-btn" type="button" aria-label="Close command palette">Esc</button>
     </div>
     <ul class="cmd-list" id="cmd-list" role="listbox" aria-label="Available commands"></ul>
