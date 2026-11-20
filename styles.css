@@ -27,8 +27,8 @@
   --font-mono:    "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
   /* Scale */
-  --text-display: clamp(2.75rem, 5.1vw, 4.75rem);
-  --text-section: clamp(2.5rem, 3.6vw, 3.25rem);
+  --text-display: clamp(2.5rem, 5.1vw, 4.75rem);
+  --text-section: clamp(2.0rem, 3.6vw, 3.25rem);
   --text-title:   1.5rem;
   --text-lead:    1.1875rem;
   --text-md:      1rem;
