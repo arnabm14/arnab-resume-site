@@ -1,8 +1,12 @@
 .wrangler/
 dist/
+docs/
 *.txt
 *.log
 .DS_Store
 /Arnab_Mondal_*_Edited.pdf
 /Arnab_Mondal_Apple_Applied_AI_2026.pdf
 /Arnab_Mondal_Quant_Data_Systems_2026.pdf
+modern_resumes/*.png
+modern_resumes/*.html
+modern_resumes/*.pdf
