@@ -1,461 +1,186 @@
-// === Navbar scroll effect ===
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 50);
-});
+/* Arnab Mondal Engineering Portfolio — Interactive Filter, Code Explorer, and Modals */
 
-// === Mobile menu ===
-const hamburger = document.getElementById('hamburger');
-const navLinks = document.getElementById('nav-links');
-hamburger.addEventListener('click', () => {
-  navLinks.classList.toggle('active');
-});
-navLinks.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', () => navLinks.classList.remove('active'));
-});
+const CODE_SNIPPETS = {
+  tickforge: `# TickForge: Official Binance Buffer-First L2 Synchronization Protocol
+async def sync_order_book(ws, symbol: str) -> L2OrderBook:
+    buffer = []
+    # 1. Open WebSocket stream first and buffer incremental depth deltas
+    t_end = time.monotonic() + 1.0
+    while time.monotonic() < t_end:
+        ev = json.loads(await ws.recv())
+        if ev.get("s") == symbol:
+            buffer.append(ev)
 
-// === Scroll reveal ===
-const revealEls = document.querySelectorAll('.reveal');
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('active');
-      revealObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.15 });
-revealEls.forEach(el => revealObserver.observe(el));
+    # 2. Fetch authoritative REST snapshot while WebSocket stays open
+    snap = fetch_rest_depth(symbol, limit=100)
+    book = L2OrderBook(symbol)
+    book.load_snapshot(snap["lastUpdateId"], snap["bids"], snap["asks"])
 
-// === Typing effect (Arnab's actual titles) ===
-const typedEl = document.getElementById('typed');
-const titles = [
-  'Data Engineer @ Google Cloud',
-  'Google Cloud Data Engineer Certified',
-  'AWS Data Engineer Associate',
-  'AWS Solutions Architect Associate',
-  '6+ Years in Big Data',
-  'Petabyte-Scale Pipeline Architect',
-  'PySpark · Kafka · Airflow · Terraform'
-];
-let titleIdx = 0, charIdx = 0, deleting = false;
-function typeLoop() {
-  const current = titles[titleIdx];
-  typedEl.textContent = current.substring(0, charIdx);
-  if (!deleting) {
-    charIdx++;
-    if (charIdx > current.length) { setTimeout(() => { deleting = true; typeLoop(); }, 2000); return; }
-  } else {
-    charIdx--;
-    if (charIdx === 0) { deleting = false; titleIdx = (titleIdx + 1) % titles.length; }
+    # 3. Replay strictly with Binance invariant: U <= lastUpdateId + 1 <= u
+    for ev in buffer:
+        if int(ev["u"]) <= book.last_update_id:
+            continue
+        ok = book.apply_depth_diff(ev["U"], ev["u"], ev["b"], ev["a"], strict_sequence=True)
+        if not ok:
+            raise SequenceGapError(f"Gap detected on {symbol}: expected <= {book.last_update_id + 1}")
+    return book`,
+
+  bitemporal: `# Bi-Temporal Point-in-Time Parquet Store (Zero Look-Ahead Bias Guarantee)
+def query_as_of(path: Path, as_of_knowledge_ms: int, symbol: str) -> pa.Table:
+    table = pq.read_table(path)
+    # Exclude late-arriving historical backfills whose knowledge_time_ms > cutoff
+    mask = pc.and_(
+        pc.less_equal(table["knowledge_time_ms"], pa.scalar(as_of_knowledge_ms, pa.int64())),
+        pc.equal(table["symbol"], pa.scalar(symbol, pa.string())),
+    )
+    pit_slice = table.filter(mask)
+    max_k = pc.max(pit_slice["knowledge_time_ms"]).as_py()
+    assert max_k is None or max_k <= as_of_knowledge_ms, "Temporal leakage detected!"
+    return pit_slice`,
+
+  dagfactory: `# Reusable Cloud Composer (Airflow) DAG Factory + Custom Business-Day Calendar
+def build_pipeline_dag(spec: dict) -> DAG:
+    with DAG(
+        dag_id=f"ingestor_{spec['domain']}_{spec['env']}",
+        schedule=WeekdayHolidayTimetable(calendar_id=spec["holiday_calendar"]),
+        catchup=False,
+        default_args={"retries": 3, "retry_delay": timedelta(minutes=2)},
+    ) as dag:
+        extract = BigQueryInsertJobOperator(
+            task_id="ingest_to_raw",
+            configuration={"query": {"query": spec["extract_sql"], "useLegacySql": False}},
+        )
+        transform = DataformCreateWorkflowInvocationOperator(
+            task_id="run_dataform_models",
+            repository_id=spec["dataform_repo"],
+            workflow_invocation={"compilation_result": spec["compilation_id"]},
+        )
+        extract >> transform
+    return dag`,
+
+  reconcile: `-- 400+ TB Warehouse Migration Automated Row and Hash Reconciliation
+WITH source_agg AS (
+  SELECT partition_dt, COUNT(*) AS row_cnt, BITXOR_AGG(HASH(pk_id, amount_num, updated_ts)) AS row_hash
+  FROM legacy_stage.patient_ledger
+  GROUP BY partition_dt
+),
+target_agg AS (
+  SELECT partition_dt, COUNT(*) AS row_cnt, BITXOR_AGG(HASH(pk_id, amount_num, updated_ts)) AS row_hash
+  FROM prod_snowflake.patient_ledger
+  GROUP BY partition_dt
+)
+SELECT
+  COALESCE(s.partition_dt, t.partition_dt) AS partition_dt,
+  s.row_cnt AS src_rows,
+  t.row_cnt AS tgt_rows,
+  CASE WHEN s.row_cnt = t.row_cnt AND s.row_hash = t.row_hash THEN 'MATCH' ELSE 'DRIFT' END AS audit_status
+FROM source_agg s
+FULL OUTER JOIN target_agg t ON s.partition_dt = t.partition_dt
+WHERE s.row_cnt IS DISTINCT FROM t.row_cnt OR s.row_hash IS DISTINCT FROM t.row_hash;`
+};
+
+const CASE_STUDIES = {
+  gcp: {
+    title: 'Google Cloud: FHIR Vector DB, Real-Time Vertex AI, and Terraform DAG Factory',
+    html: `
+      <p><strong>Challenge:</strong> Unify enterprise bare-metal historical data, cross-cloud AWS Apache Iceberg tables, real-time organizational email streams, and strictly compliant FHIR healthcare records into a single governed GCP platform powering Vertex AI and low-latency AI retrieval.</p>
+      <p><strong>Architecture:</strong> Built a Terraform-managed Airflow DAG Factory on Cloud Composer with a custom business-day/holiday scheduling plugin, automated STS ingestion from AWS to BigQuery for Iceberg and Hive-partitioned Parquet, Python-automated Dataform transformation suites, and a compliant vector database indexing FHIR clinical records for AI retrieval.</p>
+      <p><strong>Outcome:</strong> Standardized repeatable Dev/Staging/Prod MLOps and DataOps lifecycles, improved pipeline throughput over legacy bare-metal infrastructure, and enabled rapid compliant AI retrieval.</p>
+    `
+  },
+  usefulbi: {
+    title: 'UsefulBI: 8.5M Records/Day Healthcare Platform ($200K/yr Compute Savings)',
+    html: `
+      <p><strong>Challenge:</strong> Migrate 15TB covering 12 years of regulated patient history across 7 healthcare facilities onto AWS and Databricks with zero data loss and strict compliance.</p>
+      <p><strong>Architecture:</strong> Engineered fault-tolerant PySpark ingestion pipelines with automated schema/record validation, row-level security governance, Starburst federation, and adaptive Databricks cluster sizing.</p>
+      <p><strong>Outcome:</strong> 99.99% production uptime on 8.5M daily patient records, 100% security compliance, 32% infrastructure cost reduction, and $200K/yr Databricks savings while lifting processing capacity by 65%.</p>
+    `
+  },
+  phdata: {
+    title: 'phData: 400+ TB Legacy Data Warehouse to Snowflake Migration',
+    html: `
+      <p><strong>Challenge:</strong> Migrate over 400 Terabytes from legacy enterprise warehouses (Teradata and SQL Server) into Snowflake with zero silent drift or data loss.</p>
+      <p><strong>Architecture:</strong> Built end-to-end PySpark/Snowflake ingestion utilities, automated partition-level row-count and hash reconciliation tooling, and a Git-backed Azure repository API framework for version-controlling dbt Cloud jobs.</p>
+      <p><strong>Outcome:</strong> Verified zero-loss cutover across 400+ TB and published reusable migration and dbt CI/CD patterns on the official phData engineering blog.</p>
+    `
   }
-  setTimeout(typeLoop, deleting ? 40 : 80);
-}
-typeLoop();
+};
 
-// === Animated stat counters ===
-const stats = document.querySelectorAll('.stat-number');
-const statObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const target = +entry.target.dataset.target;
-      let current = 0;
-      const step = Math.max(1, Math.ceil(target / 50));
-      const timer = setInterval(() => {
-        current += step;
-        if (current >= target) { current = target; clearInterval(timer); }
-        entry.target.textContent = current + (target >= 100 ? '+' : '+');
-      }, 30);
-      statObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.5 });
-stats.forEach(s => statObserver.observe(s));
-
-// === Skill bar animation ===
-const skillBars = document.querySelectorAll('.skill-bar-fill');
-const skillObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.style.width = entry.target.dataset.width + '%';
-      skillObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.3 });
-skillBars.forEach(bar => skillObserver.observe(bar));
-
-// === Skills Radar Chart ===
-let chartRendered = false;
-const chartObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting && !chartRendered) {
-      renderRadarChart();
-      chartRendered = true;
-    }
-  });
-}, { threshold: 0.3 });
-
-const chartCanvas = document.getElementById('skillsRadarChart');
-if (chartCanvas) chartObserver.observe(chartCanvas);
-
-function renderRadarChart() {
-  const ctx = document.getElementById('skillsRadarChart').getContext('2d');
-  
-  // Create gradient
-  const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-  gradient.addColorStop(0, 'rgba(6, 182, 212, 0.4)'); // --accent
-  gradient.addColorStop(1, 'rgba(59, 130, 246, 0.1)'); // --primary
-  
-  new Chart(ctx, {
-    type: 'radar',
-    data: {
-      labels: [
-        'Data Warehousing', 
-        'Data Pipelines', 
-        'Cloud Infrastructure', 
-        'Real-time Streaming', 
-        'Data Modeling', 
-        'Performance Tuning'
-      ],
-      datasets: [{
-        label: 'Proficiency',
-        data: [100, 99, 98, 97, 96, 98],
-        backgroundColor: gradient,
-        borderColor: '#06b6d4',
-        pointBackgroundColor: '#3b82f6',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: '#06b6d4',
-        borderWidth: 2,
-        pointRadius: 4,
-        pointHoverRadius: 6
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          backgroundColor: 'rgba(10, 15, 30, 0.9)',
-          titleFont: { family: 'Outfit', size: 14 },
-          bodyFont: { family: 'Inter', size: 13 },
-          padding: 12,
-          borderColor: 'rgba(65,83,140,0.3)',
-          borderWidth: 1
+function init() {
+  // Experience ecosystem filters
+  document.querySelectorAll('.filter-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('.role-card').forEach((card) => {
+        if (filter === 'all') {
+          card.hidden = false;
+        } else {
+          const tags = (card.dataset.ecosystems || '').split(/\s+/);
+          card.hidden = !tags.includes(filter);
         }
-      },
-      scales: {
-        r: {
-          min: 0,
-          max: 100,
-          angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
-          grid: { color: 'rgba(255, 255, 255, 0.1)' },
-          pointLabels: {
-            color: '#94a3b8',
-            font: { family: 'Inter', size: 12, weight: '500' }
-          },
-          ticks: { display: false }
-        }
-      }
-    }
-  });
-}
-
-// === Canvas particle background ===
-const canvas = document.getElementById('hero-canvas');
-const ctx = canvas.getContext('2d');
-let particles = [];
-let shootingStars = [];
-let mouse = { x: null, y: null, radius: 200 };
-
-window.addEventListener('mousemove', (e) => {
-  mouse.x = e.clientX;
-  mouse.y = e.clientY;
-});
-window.addEventListener('mouseleave', () => {
-  mouse.x = null;
-  mouse.y = null;
-});
-
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
-
-class Particle {
-  constructor(fromEdge = false) {
-    this.reset(fromEdge);
-  }
-  reset(fromEdge = false) {
-    if (fromEdge) {
-      const side = Math.floor(Math.random() * 4);
-      if (side === 0) { this.x = Math.random() * canvas.width; this.y = -10; }
-      else if (side === 1) { this.x = canvas.width + 10; this.y = Math.random() * canvas.height; }
-      else if (side === 2) { this.x = Math.random() * canvas.width; this.y = canvas.height + 10; }
-      else { this.x = -10; this.y = Math.random() * canvas.height; }
-    } else {
-      this.x = Math.random() * canvas.width;
-      this.y = Math.random() * canvas.height;
-    }
-    this.size = Math.random() * 2 + 0.5;
-    this.speedX = (Math.random() - 0.5) * 0.5;
-    this.speedY = (Math.random() - 0.5) * 0.5;
-    this.opacity = Math.random() * 0.6 + 0.2;
-    this.twinkleSpeed = Math.random() * 0.02 + 0.005;
-  }
-  update() {
-    this.opacity += Math.sin(Date.now() * this.twinkleSpeed) * 0.003;
-    if (this.opacity < 0.15) this.opacity = 0.15;
-    if (this.opacity > 0.85) this.opacity = 0.85;
-
-    // Mouse gravity pull
-    if (mouse.x !== null && mouse.y !== null) {
-      const dx = mouse.x - this.x;
-      const dy = mouse.y - this.y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < mouse.radius && dist > 1) {
-        const force = (mouse.radius - dist) / mouse.radius;
-        const angle = Math.atan2(dy, dx);
-        this.x += Math.cos(angle) * force * 1.8;
-        this.y += Math.sin(angle) * force * 1.8;
-      }
-    }
-
-    this.x += this.speedX;
-    this.y += this.speedY;
-
-    if (this.x < -20 || this.x > canvas.width + 20 || this.y < -20 || this.y > canvas.height + 20) {
-      this.reset(true);
-    }
-  }
-  draw() {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(59, 130, 246, ${this.opacity})`;
-    if (this.size > 1.8) {
-      ctx.shadowBlur = 6;
-      ctx.shadowColor = 'rgba(6, 182, 212, 0.8)';
-    }
-    ctx.fill();
-    ctx.shadowBlur = 0;
-  }
-}
-
-class ShootingStar {
-  constructor() {
-    this.reset();
-  }
-  reset() {
-    this.x = Math.random() * canvas.width * 0.8;
-    this.y = Math.random() * (canvas.height * 0.4);
-    this.length = Math.random() * 100 + 60;
-    this.speed = Math.random() * 12 + 8;
-    this.size = Math.random() * 1.5 + 0.8;
-    this.angle = Math.PI / 4 + (Math.random() - 0.5) * 0.2;
-    this.opacity = 1;
-    this.active = true;
-  }
-  update() {
-    if (!this.active) return;
-    this.x += Math.cos(this.angle) * this.speed;
-    this.y += Math.sin(this.angle) * this.speed;
-    this.opacity -= 0.015;
-    if (this.opacity <= 0 || this.x > canvas.width || this.y > canvas.height) {
-      this.active = false;
-    }
-  }
-  draw() {
-    if (!this.active) return;
-    const tailX = this.x - Math.cos(this.angle) * this.length;
-    const tailY = this.y - Math.sin(this.angle) * this.length;
-
-    const grad = ctx.createLinearGradient(this.x, this.y, tailX, tailY);
-    grad.addColorStop(0, `rgba(255, 255, 255, ${this.opacity})`);
-    grad.addColorStop(0.2, `rgba(6, 182, 212, ${this.opacity * 0.9})`);
-    grad.addColorStop(1, `rgba(59, 130, 246, 0)`);
-
-    ctx.beginPath();
-    ctx.moveTo(this.x, this.y);
-    ctx.lineTo(tailX, tailY);
-    ctx.strokeStyle = grad;
-    ctx.lineWidth = this.size;
-    ctx.lineCap = 'round';
-    ctx.stroke();
-  }
-}
-
-// 350 stars for an ultra-dense, mesmerizing night sky
-for (let i = 0; i < 350; i++) particles.push(new Particle());
-
-let lastShootingStarTime = Date.now();
-
-function animateParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // Trigger shooting star frequently every 1.2 to 2.5 seconds
-  const now = Date.now();
-  if (now - lastShootingStarTime > 1200 + Math.random() * 1300) {
-    shootingStars.push(new ShootingStar());
-    if (Math.random() > 0.6) {
-      setTimeout(() => shootingStars.push(new ShootingStar()), 300);
-    }
-    lastShootingStarTime = now;
-  }
-
-  shootingStars.forEach(s => { s.update(); s.draw(); });
-  shootingStars = shootingStars.filter(s => s.active);
-
-  particles.forEach(p => { p.update(); p.draw(); });
-
-  for (let i = 0; i < particles.length; i++) {
-    for (let j = i + 1; j < particles.length; j++) {
-      const dx = particles[i].x - particles[j].x;
-      const dy = particles[i].y - particles[j].y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 90) {
-        ctx.beginPath();
-        ctx.strokeStyle = `rgba(59, 130, 246, ${0.08 * (1 - dist / 90)})`;
-        ctx.lineWidth = 0.5;
-        ctx.moveTo(particles[i].x, particles[i].y);
-        ctx.lineTo(particles[j].x, particles[j].y);
-        ctx.stroke();
-      }
-    }
-  }
-
-  requestAnimationFrame(animateParticles);
-}
-animateParticles();
-
-// === Smooth anchor scrolling ===
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    e.preventDefault();
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-});
-
-// === AI CHATBOT LOGIC ===
-const chatToggle = document.getElementById('chat-toggle');
-const chatWidget = document.getElementById('chat-widget');
-const closeChat = document.getElementById('close-chat');
-const chatMessages = document.getElementById('chat-messages');
-const chatInput = document.getElementById('chat-input');
-const sendBtn = document.getElementById('send-btn');
-
-chatToggle.addEventListener('click', () => {
-  chatWidget.classList.add('active');
-  chatToggle.classList.add('hidden');
-  setTimeout(() => chatInput.focus(), 300);
-});
-
-closeChat.addEventListener('click', () => {
-  chatWidget.classList.remove('active');
-  chatToggle.classList.remove('hidden');
-});
-
-const knowledgeBase = [
-  { keywords: ['hi', 'hello', 'hey', 'greetings'], response: "Hello! I'm Leona, Arnab's AI assistant. How can I help you today?" },
-  { keywords: ['who are you', 'what are you', 'name'], response: "I'm Leona, a custom AI assistant built directly into Arnab's portfolio. I can answer questions about his experience and skills!" },
-  { keywords: ['who is arnab', 'about arnab', 'tell me about arnab', 'tell me about him', 'summary', 'background'], response: "Arnab is a Senior Data Engineer currently at Google Cloud. He has over 6 years of experience building petabyte-scale data pipelines and is triple cloud-certified in AWS and GCP." },
-  { keywords: ['experience', 'work', 'job', 'career', 'history'], response: "Arnab has over 6 years of experience. He's currently a Data Engineer at Google Cloud. Before that, he was a Senior Data Engineer II at UsefulBI and a Senior Data Engineer at phData." },
-  { keywords: ['google', 'gcp', 'vertex', 'composer', 'dataform'], response: "At Google Cloud, Arnab engineered real-time data ingestion pipelines into BigQuery for Vertex AI, developed a scalable DAG Factory using Airflow, and deployed complete IaC solutions using Terraform." },
-  { keywords: ['usefulbi', 'useful bi', 'healthcare'], response: "At UsefulBI, he migrated 15TB of healthcare data to AWS, built pipelines processing 8.5M patient records daily (99.99% uptime), and optimized Databricks clusters to save $200K annually." },
-  { keywords: ['phdata', 'migration', 'snowflake', '400tb'], response: "At phData, Arnab led a massive 400+ Terabyte migration from a Legacy Data Warehouse to Snowflake. He also built a custom migration validation tool to prevent data loss." },
-  { keywords: ['skills', 'tech', 'stack', 'technologies', 'tools', 'languages'], response: "Arnab is an expert in Cloud (GCP, AWS, Azure), Data Warehousing (BigQuery, Snowflake, Databricks), Languages (Python, PySpark, SQL), and Big Data (Kafka, Airflow, Terraform)." },
-  { keywords: ['certification', 'certs', 'certified'], response: "Arnab is triple-certified! He holds the Google Cloud Professional Data Engineer, AWS Data Engineer Associate, and AWS Solutions Architect Associate certifications." },
-  { keywords: ['education', 'degree', 'college', 'university', 'btech'], response: "Arnab holds a Bachelor of Technology in Computer Science & Engineering from the Institute of Engineering and Management, Kolkata, graduating with an 8.45 CGPA." },
-  { keywords: ['contact', 'email', 'phone', 'hire', 'reach', 'number'], response: "You can reach Arnab via email at arnavm014@gmail.com, call him at +91 6290729774, or connect with him on LinkedIn!" },
-  { keywords: ['kafka', 'spark', 'airflow', 'dbt', 'terraform', 'pyspark', 'python', 'sql'], response: "Yes, Arnab has extensive hands-on experience with modern data stack tools including Kafka, PySpark, Airflow, dbt, and Terraform. Check out his Skills section for more!" },
-  { keywords: ['resume', 'cv', 'download'], response: "You are currently viewing his interactive resume! If you need a PDF version, please reach out to him at arnavm014@gmail.com." }
-];
-
-async function getBotResponse(input) {
-  const normalized = input.toLowerCase();
-  
-  // Quick local keyword check for instant response
-  for (const item of knowledgeBase) {
-    if (item.keywords.some(kw => normalized.includes(kw))) return item.response;
-  }
-
-  // Live Google Gemini AI Call
-  try {
-    const apiKey = atob('QVEuQWI4Uk42S1diYzlSZFBFVE1ocXE2aVAxYllvM0g3WGJEcnVGb2xsOGJTbXdzMjlyYlE=');
-    const systemPrompt = `You are Leona, the professional AI Assistant for Arnab Mondal's portfolio site.
-Arnab is a Senior Data Engineer at Google Cloud (6+ years experience), triple cloud certified (GCP PDE, AWS SAA, AWS DEA).
-Key highlights: 400TB migration to Snowflake at phData, 15TB migration to AWS at UsefulBI, GCP Vertex/BigQuery/Airflow pipelines.
-Rule: Answer politely, concisely (1-3 sentences max). Only discuss Arnab's career, resume, skills, or projects. If asked unrelated questions, ask them to email arnavm014@gmail.com.`;
-
-    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [
-          { role: 'user', parts: [{ text: systemPrompt + "\n\nUser Question: " + input }] }
-        ]
-      })
+      });
     });
+  });
 
-    if (res.ok) {
-      const data = await res.json();
-      const answer = data.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (answer) return answer.trim();
+  // Code snippet tabs
+  const viewer = document.getElementById('code-viewer');
+  const setSnippet = (key) => {
+    viewer.textContent = CODE_SNIPPETS[key] || '';
+    document.querySelectorAll('.code-tab').forEach((t) => {
+      t.classList.toggle('active', t.dataset.snippet === key);
+    });
+  };
+  document.querySelectorAll('.code-tab').forEach((tab) => {
+    tab.addEventListener('click', () => setSnippet(tab.dataset.snippet));
+  });
+  setSnippet('tickforge');
+
+  // Copy snippet button
+  const copyBtn = document.getElementById('copy-code-btn');
+  copyBtn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(viewer.textContent);
+      copyBtn.textContent = 'Copied';
+      setTimeout(() => { copyBtn.textContent = 'Copy snippet'; }, 1600);
+    } catch (_) {
+      copyBtn.textContent = 'Copy failed';
     }
-  } catch (err) {
-    console.error("Gemini API Error:", err);
-  }
+  });
 
-  // General fallback
-  if (normalized.includes('arnab')) {
-    return "Arnab is a Senior Data Engineer at Google Cloud. Ask me about his 'experience', 'skills', or 'projects'!";
-  }
-  
-  return "Please only ask relevant questions about Arnab's professional background, experience, and resume. For anything else, please reach out to him directly at arnavm014@gmail.com.";
+  // Resume modal
+  const resumeModal = document.getElementById('resume-modal');
+  const openResume = () => { resumeModal.hidden = false; };
+  const closeResume = () => { resumeModal.hidden = true; };
+  document.getElementById('open-resume-modal').addEventListener('click', openResume);
+  document.getElementById('hero-resume-btn').addEventListener('click', openResume);
+  document.getElementById('close-resume-modal').addEventListener('click', closeResume);
+  resumeModal.addEventListener('click', (e) => { if (e.target === resumeModal) closeResume(); });
+
+  // Case study modal
+  const caseModal = document.getElementById('case-modal');
+  const caseTitle = document.getElementById('case-modal-title');
+  const caseBody = document.getElementById('case-modal-body');
+  const closeCase = () => { caseModal.hidden = true; };
+  document.querySelectorAll('[data-case]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const c = CASE_STUDIES[btn.dataset.case];
+      if (!c) return;
+      caseTitle.textContent = c.title;
+      caseBody.innerHTML = c.html;
+      caseModal.hidden = false;
+    });
+  });
+  document.getElementById('close-case-modal').addEventListener('click', closeCase);
+  caseModal.addEventListener('click', (e) => { if (e.target === caseModal) closeCase(); });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeResume();
+      closeCase();
+    }
+  });
 }
 
-function addMessage(text, isUser = false) {
-  const msgDiv = document.createElement('div');
-  msgDiv.className = `message ${isUser ? 'user-message' : 'ai-message'}`;
-  msgDiv.innerHTML = text;
-  chatMessages.appendChild(msgDiv);
-  chatMessages.scrollTop = chatMessages.scrollHeight;
-}
-
-function showTypingIndicator() {
-  const typingDiv = document.createElement('div');
-  typingDiv.className = 'message ai-message message-typing';
-  typingDiv.id = 'typing-indicator';
-  typingDiv.innerHTML = '<span></span><span></span><span></span>';
-  chatMessages.appendChild(typingDiv);
-  chatMessages.scrollTop = chatMessages.scrollHeight;
-}
-
-function removeTypingIndicator() {
-  const indicator = document.getElementById('typing-indicator');
-  if (indicator) indicator.remove();
-}
-
-async function handleSend() {
-  const text = chatInput.value.trim();
-  if (!text) return;
-  
-  addMessage(text, true);
-  chatInput.value = '';
-  
-  showTypingIndicator();
-  
-  // Minimum delay for realistic feel
-  await new Promise(r => setTimeout(r, 800));
-  
-  const response = await getBotResponse(text);
-  removeTypingIndicator();
-  addMessage(response, false);
-}
-
-sendBtn.addEventListener('click', handleSend);
-chatInput.addEventListener('keypress', (e) => {
-  if (e.key === 'Enter') handleSend();
-});
+window.addEventListener('DOMContentLoaded', init);
